@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="plutonium-generic-listview">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `plutonium-generic-listview`
+     * Generic listview.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index-plutonium-generic-listview.html
+     */
+    class PlutoniumGenericListview extends Polymer.Element {
+      static get is() { return 'plutonium-generic-listview'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'plutonium-generic-listview'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(PlutoniumGenericListview.is, PlutoniumGenericListview);
+  </script>
+</dom-module>
