@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="plutonium-generics">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `plutonium-generics`
+     * Generic views.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class PlutoniumGenerics extends Polymer.Element {
+      static get is() { return 'plutonium-generics'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'plutonium-generics'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(PlutoniumGenerics.is, PlutoniumGenerics);
+  </script>
+</dom-module>
