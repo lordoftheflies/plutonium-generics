@@ -34,13 +34,13 @@
         </style>
         <a href="[[profilePage]]" tabindex="-1">
             <paper-icon-item>
-                <div item-icon>
-                    <!--<template is="dom-if" if="[[avatarUrl]]">-->
-                        <iron-icon src="[[avatarUrl]]"></iron-icon>
-                    <!--</template>-->
-                    <!--<template is="dom-if" if="[[!avatarUrl]]">-->
-                        <iron-icon icon="[[avatarImage]]"></iron-icon>
-                    <!--</template>-->
+                <div slot="item-icon">
+                    <template is="dom-if" if="[[avatarImage]]">
+                        <iron-icon src="[[avatarImage]]"></iron-icon>
+                    </template>
+                    <template is="dom-if" if="[[!avatarImage]]">
+                        <iron-icon icon="[[avatarIcon]]"></iron-icon>
+                    </template>
                 </div>
                 <paper-item-body>
                     <div>[[login]]</div>
