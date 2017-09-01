@@ -1,36 +1,122 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="plutonium-generic-mixin.html">
 
 <dom-module id="plutonium-generic-listview">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
 
-  <script>
-    /**
-     * `plutonium-generic-listview`
-     * Generic listview.
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index-plutonium-generic-listview.html
-     */
-    class PlutoniumGenericListview extends Polymer.Element {
-      static get is() { return 'plutonium-generic-listview'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'plutonium-generic-listview'
-          }
-        };
-      }
-    }
+        <slot name="title">
+            <a class="active" href="[[listUrl]]">
+                <span>[[verbose_name_plural]]</span>
+                <span>[[title]]</span>
+            </a>
+        </slot>
 
-    window.customElements.define(PlutoniumGenericListview.is, PlutoniumGenericListview);
-  </script>
+
+        <div>
+            <div name="left-panel">
+                <div class="card-content">
+                    <slot>
+                        <iron-list items="[[items]]">
+                            <a href="[[detailsLink]]/[[item.pk]]">
+                                <template>
+                                    sss
+                                    <div name="item">
+                                        <paper-item>
+                                            <paper-item-body>
+                                                sss
+                                                <div>[[item.displayName]]</div>
+                                                <div secondary>[[item.description]]</div>
+                                            </paper-item-body>
+                                        </paper-item>
+                                    </div>
+                                </template>
+                            </a>
+                        </iron-list>
+                    </slot>
+                    <!--<table id="table" class="table bordered" data-form-control="datatable" style="width:100%">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                    <!--{% for header, header_title in headers %}-->
+                    <!--<th data-name="{{ header }}" class="{{ header }}">{{ header_title|title }}</th>-->
+                    <!--{% endfor %}-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--{% for item, row in data %}-->
+                    <!--<tr>-->
+                    <!--{% for column_name, item in row.items %}-->
+                    <!--<td>-->
+                    <!--{% if column_name in view.datalist.list_display_links %}-->
+                    <!--<a href="#">{{ item }}</a>-->
+                    <!--{% else %}-->
+                    <!--{{ item }}-->
+                    <!--{% endif %}-->
+                    <!--</td>-->
+                    <!--{% endfor %}-->
+                    <!--</tr>-->
+                    <!--{% endfor %}-->
+                    <!--</tbody>-->
+                    <!--</table>-->
+                </div>
+            </div>
+
+            <slot name="right-panel">
+                Right Panel
+            </slot>
+
+            <slot name="footer">
+                Footer
+            </slot>
+
+            <slot name="action-btn">
+                <div class="fixed-action-btn">
+                    <a class="btn-floating btn-large waves-effect waves-light red z-depth-2" href="{{ add_url }}"><i
+                            class="large material-icons">add</i></a>
+                </div>
+            </slot>
+        </div>
+
+    </template>
+
+    <script>
+        /**
+         * `plutonium-generic-listview`
+         * Generic listview.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index-plutonium-generic-listview.html
+         */
+        class PlutoniumGenericListview extends window.Plutonium.GenericMixin(Polymer.Element) {
+            static get is() {
+                return 'plutonium-generic-listview';
+            }
+
+            static get properties() {
+                return {
+                    headers: {
+                        type: Array,
+                        notify: true
+                    },
+                    detailsLink: {
+                        type: String,
+                        notify: true
+                    },
+                    items: {
+                        type: Array,
+                        notify: true
+                    }
+                }
+            }
+        }
+
+        window.customElements.define(PlutoniumGenericListview.is, PlutoniumGenericListview);
+    </script>
 </dom-module>
