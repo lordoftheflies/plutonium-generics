@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -13,18 +13,65 @@
     <link rel="import" href="../plutonium-generics.html">
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      </style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
     </custom-style>
-  </head>
-  <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic plutonium-generics demo</h3>
-      <demo-snippet>
+</head>
+<body>
+<div class="vertical-section-container centered">
+    <h3>Basic plutonium-generic-detailsview demo</h3>
+    <demo-snippet>
         <template>
-          <plutonium-generics></plutonium-generics>
+            <plutonium-generic-detailsview></plutonium-generic-detailsview>
         </template>
-      </demo-snippet>
-    </div>
-  </body>
+    </demo-snippet>
+    <h3>Basic plutonium-generic-listview demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-generic-listview
+                    items$='[{ "pk": 1, "displayName": "Macska", "description": "Lorem ipsum." }, { "pk": 2, "displayName": "Kacsa", "description": "Lorem ipsum." }, { "pk": 3, "displayName": "Kecske", "description": "Lorem ipsum." }]'>
+
+            </plutonium-generic-listview>
+        </template>
+    </demo-snippet>
+
+    <h3>Account panel default demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-account-panel
+                    id="accountPanelDefault"
+                    profile-page="https://www.google.com"
+                    login="Lordoftheflies"
+                    email="laszlo.hegedus@cherubits.hu">
+            </plutonium-account-panel>
+        </template>
+    </demo-snippet>
+
+    <h3>Account panel avatar with image demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-account-panel
+                    id="accountPanelWithImage"
+                    profile-page="https://www.google.com"
+                    avatar-image="https://avatars0.githubusercontent.com/u/4078632?v=4&s=460"
+                    login="Lordoftheflies"
+                    email="laszlo.hegedus@cherubits.hu">
+            </plutonium-account-panel>
+        </template>
+    </demo-snippet>
+
+    <h3>Account panel avatar with icon demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-account-panel
+                    id="accountPanelWithIcon"
+                    profile-page="https://www.google.com"
+                    avatar-icon="plutonium-icons:account-box"
+                    login="Lordoftheflies"
+                    email="laszlo.hegedus@cherubits.hu">
+            </plutonium-account-panel>
+        </template>
+    </demo-snippet>
+</div>
+</body>
 </html>
