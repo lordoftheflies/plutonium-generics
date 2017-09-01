@@ -1,0 +1,109 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="plutonium-icons.html">
+
+<dom-module id="plutonium-account-panel">
+    <template>
+        <style>
+            :host {
+                display: block;
+                background-color: var(--plutonium-account-panel-background, --primary-background-color);
+            }
+
+            :host iron-icon {
+                background-color: var(--plutonium-account-panel-foreground, --primary-text-color);
+            }
+
+            :host > a {
+                text-decoration: none;
+                color: var(--plutonium-account-panel-foreground, --primary-text-color);
+            }
+
+            :host:hover {
+                /*background-color: transparent;*/
+                color: var(--plutonium-account-panel-accent, --accent-color);
+            }
+
+            :host:hover iron-icon {
+                background-color: var(--plutonium-account-panel-accent, --accent-color);
+            }
+
+        </style>
+        <a href="[[profilePage]]" tabindex="-1">
+            <paper-icon-item>
+                <div item-icon>
+                    <!--<template is="dom-if" if="[[avatarUrl]]">-->
+                        <iron-icon src="[[avatarUrl]]"></iron-icon>
+                    <!--</template>-->
+                    <!--<template is="dom-if" if="[[!avatarUrl]]">-->
+                        <iron-icon icon="[[avatarImage]]"></iron-icon>
+                    <!--</template>-->
+                </div>
+                <paper-item-body>
+                    <div>[[login]]</div>
+                    <div secondary>[[email]]</div>
+                </paper-item-body>
+            </paper-icon-item>
+        </a>
+    </template>
+
+    <script>
+        /**
+         * `plutonium-account-panel`
+         * User account information panel.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PlutoniumAccountPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
+            static get is() {
+                return 'plutonium-account-panel';
+            }
+
+            static get properties() {
+                return {
+                    profilePage: {
+                        type: String
+                    },
+                    avatarImage: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    avatarIcon: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true,
+                        value: 'plutonium:account-circle'
+                    },
+                    login: {
+                        type: String
+                    },
+                    email: {
+                        type: String
+                    }
+                };
+            }
+
+            get json() {
+                return {
+                    profilePage: this.profilePage,
+                    avatarImage: this.avatarImage,
+                    avatarIcon: this.avatarIcon,
+                    login: this.login,
+                    email: this.email
+                };
+            }
+
+            ready() {
+                super.ready();
+                console.debug(this.fqen, 'properties', this.json);
+            }
+        }
+
+        window.customElements.define(PlutoniumAccountPanel.is, PlutoniumAccountPanel);
+    </script>
+</dom-module>
