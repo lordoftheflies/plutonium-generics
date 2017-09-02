@@ -1,0 +1,86 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="plutonium-widget-mixin.html">
+
+<link rel="import" href="plutonium-icons.html">
+<link rel="import" href="plutonium-shared-styles.html">
+
+<dom-module id="plutonium-profile-panel">
+    <template>
+        <style include="plutonium-shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+
+        <div class="card">
+            <div class="circle">2</div>
+            <h1>[[login]]</h1>
+            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id
+                adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * `plutonium-account-panel`
+         * User account information panel.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PlutoniumProfilePanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
+            static get is() {
+                return 'plutonium-profile-panel';
+            }
+
+            static get properties() {
+                return {
+                    profilePage: {
+                        type: String
+                    },
+                    avatarImage: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    avatarIcon: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true,
+                        value: 'plutonium:account-circle'
+                    },
+                    login: {
+                        type: String
+                    },
+                    email: {
+                        type: String
+                    }
+                };
+            }
+
+            get json() {
+                return {
+                    profilePage: this.profilePage,
+                    avatarImage: this.avatarImage,
+                    avatarIcon: this.avatarIcon,
+                    login: this.login,
+                    email: this.email
+                };
+            }
+
+            ready() {
+                super.ready();
+                console.debug(this.fqen, 'properties', this.json);
+            }
+        }
+
+        window.customElements.define(PlutoniumProfilePanel.is, PlutoniumProfilePanel);
+    </script>
+</dom-module>
