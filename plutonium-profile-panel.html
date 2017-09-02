@@ -3,51 +3,27 @@
 <link rel="import" href="../paper-item/paper-icon-item.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 <link rel="import" href="plutonium-widget-mixin.html">
-<link rel="import" href="plutonium-icons.html">
 
-<dom-module id="plutonium-account-panel">
+<link rel="import" href="plutonium-icons.html">
+<link rel="import" href="plutonium-shared-styles.html">
+
+<dom-module id="plutonium-profile-panel">
     <template>
-        <style>
+        <style include="plutonium-shared-styles">
             :host {
                 display: block;
-                background-color: var(--plutonium-account-panel-background, --primary-background-color);
-            }
 
-            :host iron-icon {
-                background-color: var(--plutonium-account-panel-foreground, --primary-text-color);
+                padding: 10px;
             }
-
-            :host > a {
-                text-decoration: none;
-                color: var(--plutonium-account-panel-foreground, --primary-text-color);
-            }
-
-            :host:hover {
-                /*background-color: transparent;*/
-                color: var(--plutonium-account-panel-accent, --accent-color);
-            }
-
-            :host:hover iron-icon {
-                background-color: var(--plutonium-account-panel-accent, --accent-color);
-            }
-
         </style>
-        <a href="[[profilePage]]" tabindex="-1">
-            <paper-icon-item>
-                <div slot="item-icon">
-                    <template is="dom-if" if="[[avatarImage]]">
-                        <iron-icon src="[[avatarImage]]"></iron-icon>
-                    </template>
-                    <template is="dom-if" if="[[!avatarImage]]">
-                        <iron-icon icon="[[avatarIcon]]"></iron-icon>
-                    </template>
-                </div>
-                <paper-item-body>
-                    <div>[[login]]</div>
-                    <div secondary>[[email]]</div>
-                </paper-item-body>
-            </paper-icon-item>
-        </a>
+
+        <div class="card">
+            <div class="circle">2</div>
+            <h1>[[login]]</h1>
+            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id
+                adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+        </div>
     </template>
 
     <script>
@@ -59,9 +35,9 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PlutoniumAccountPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
+        class PlutoniumProfilePanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
             static get is() {
-                return 'plutonium-account-panel';
+                return 'plutonium-profile-panel';
             }
 
             static get properties() {
@@ -105,6 +81,6 @@
             }
         }
 
-        window.customElements.define(PlutoniumAccountPanel.is, PlutoniumAccountPanel);
+        window.customElements.define(PlutoniumProfilePanel.is, PlutoniumProfilePanel);
     </script>
 </dom-module>
