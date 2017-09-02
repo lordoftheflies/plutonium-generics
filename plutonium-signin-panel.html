@@ -1,0 +1,152 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../paper-item/paper-icon-item.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="plutonium-widget-mixin.html">
+<link rel="import" href="plutonium-icons.html">
+<link rel="import" href="plutonium-shared-styles.html">
+
+<dom-module id="plutonium-signin-panel">
+    <template>
+        <style include="plutonium-shared-styles">
+            :host {
+                display: block;
+            }
+
+            .flex-equal-around-justified {
+                @apply --layout-horizontal;
+                @apply --layout-around-justified;
+            }
+
+            .flex-center-align {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                /*height: 120px;*/
+            }
+
+        </style>
+        <iron-form id="loginForm">
+            <h1>Sign in</h1>
+            <template is="dom-if" if="[[registrationUrl]]">
+                <span>Or <a href="[[registrationUrl]]">register</a> if you have no account.</span>
+            </template>
+
+            <form method="post" action="[[authenticationUrl]]">
+                <template is="dom-if" if="[[emailAuth]]">
+                    <paper-input name="email" type="email" label="Email" value="{{login}}" required></paper-input>
+                </template>
+                <template is="dom-if" if="[[!emailAuth]]">
+                    <paper-input name="login" type="text" label="Login name" value="{{login}}" required></paper-input>
+                </template>
+
+                <paper-input name="password" type="password"
+                             label="Password"
+                             value="{{password}}"
+                             required>
+                </paper-input>
+                <template is="dom-if" if="[[canStaySigned]]">
+                    <paper-toggle-button checked="{{staySigned}}">Stay signed</paper-toggle-button>
+                </template>
+                <br />
+
+                <template is="dom-if" if="[[forgottenPasswordUrl]]">
+                    <div class="container flex-equal-around-justified">
+                        <paper-button raised type="submit">Singin</paper-button>
+                        <a href="[[forgottenPasswordUrl]]" class="flex-center-align">Forgotten password</a>
+                    </div>
+                </template>
+                <template is="dom-if" if="[[!forgottenPasswordUrl]]">
+                    <div class="container flex-equal-around-justified">
+                        <paper-button raised type="submit">Singin</paper-button>
+                    </div>
+                </template>
+            </form>
+        </iron-form>
+    </template>
+
+    <script>
+        /**
+         * `plutonium-account-panel`
+         * User account information panel.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PlutoniumSigninPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
+            static get is() {
+                return 'plutonium-signin-panel';
+            }
+
+            static get properties() {
+                return {
+                    emailAuth: {
+                        type: Boolean,
+                        notify: true,
+                        value: function () {
+                            return false;
+                        }
+                    },
+                    canStaySigned: {
+                        type: Boolean,
+                        notify: true,
+                        value: function () {
+                            return false;
+                        }
+                    },
+
+                    login: {
+                        type: String
+                    },
+                    password: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true
+                    },
+                    staySigned: {
+                        type: Boolean,
+                        reflectToAttribute: true,
+                        notify: true,
+                        value: function () {
+                            return false;
+                        }
+                    },
+                    authenticationUrl: {
+                        type: String,
+                        notify: true
+                    },
+                    forgottenPasswordUrl: {
+                        type: String,
+                        notify: true,
+                        value: function() { return null;}
+                    },
+                    registrationUrl: {
+                        type: String,
+                        notify: true,
+                        value: function() { return null;}
+                    }
+                };
+            }
+
+            get json() {
+                return {
+                    login: this.login,
+                    password: this.password,
+                    staySigned: this.staySigned,
+                    authenticationUrl: this.authenticationUrl
+                };
+            }
+
+            ready() {
+                super.ready();
+                console.debug(this.fqen, 'properties', this.json);
+            }
+        }
+
+        window.customElements.define(PlutoniumSigninPanel.is, PlutoniumSigninPanel);
+    </script>
+</dom-module>
