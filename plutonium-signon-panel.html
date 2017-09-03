@@ -10,7 +10,7 @@
 <link rel="import" href="plutonium-icons.html">
 <link rel="import" href="plutonium-shared-styles.html">
 
-<dom-module id="plutonium-signin-panel">
+<dom-module id="plutonium-signon-panel">
     <template>
         <style include="plutonium-shared-styles">
             :host {
@@ -29,41 +29,37 @@
             }
 
         </style>
-        <iron-form id="loginForm">
-            <h1>Sign in</h1>
-            <template is="dom-if" if="[[registrationPage]]">
-                <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
+        <iron-form id="registerForm">
+            <h1>Sign on</h1>
+            <template is="dom-if" if="[[authenticationPage]]">
+                <span>Or <a href="[[authenticationPage]]">login</a>, if you already have an account.</span>
             </template>
 
-            <form method="post" action="[[authenticationUrl]]">
-                <template is="dom-if" if="[[emailAuth]]">
-                    <paper-input name="email" type="email" label="Email" value="{{login}}" required></paper-input>
-                </template>
-                <template is="dom-if" if="[[!emailAuth]]">
-                    <paper-input name="login" type="text" label="Login name" value="{{login}}" required></paper-input>
-                </template>
-
+            <form method="post" action="[[registrationUrl]]">
+                <paper-input name="username" type="text" label="Username" value="{{username}}" required></paper-input>
+                <paper-input name="email" type="email" label="Email" value="{{email}}" required></paper-input>
+                <paper-input name="first_name" type="text" label="First name" value="{{firstName}}"
+                             required></paper-input>
+                <paper-input name="last_name" type="text" label="Last name" value="{{lastName}}" required></paper-input>
+                <paper-input name="phone" type="phone" label="Phone number" value="{{phone}}" required></paper-input>
                 <paper-input name="password" type="password"
                              label="Password"
                              value="{{password}}"
                              required>
                 </paper-input>
+                <paper-input name="password_again" type="password"
+                             label="Password confirmation"
+                             value="{{passwordConfirmation}}"
+                             required>
+                </paper-input>
                 <template is="dom-if" if="[[canStaySigned]]">
                     <paper-toggle-button checked="{{staySigned}}">Stay signed</paper-toggle-button>
                 </template>
-                <br />
+                <br/>
 
-                <template is="dom-if" if="[[forgottenPasswordPage]]">
-                    <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit">Singin</paper-button>
-                        <a href="[[forgottenPasswordPage]]" class="flex-center-align">Forgotten password</a>
-                    </div>
-                </template>
-                <template is="dom-if" if="[[!forgottenPasswordUrl]]">
-                    <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit">Singin</paper-button>
-                    </div>
-                </template>
+                <div class="container flex-equal-around-justified">
+                    <paper-button raised type="submit">Singon</paper-button>
+                </div>
             </form>
         </iron-form>
     </template>
@@ -77,9 +73,9 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PlutoniumSigninPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
+        class PlutoniumSignonPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
             static get is() {
-                return 'plutonium-signin-panel';
+                return 'plutonium-signon-panel';
             }
 
             static get properties() {
@@ -115,19 +111,16 @@
                             return false;
                         }
                     },
-                    authenticationUrl: {
+                    authenticationPage: {
                         type: String,
                         notify: true
                     },
-                    forgottenPasswordPage: {
+                    registrationUrl: {
                         type: String,
                         notify: true,
-                        value: function() { return null;}
-                    },
-                    registrationPage: {
-                        type: String,
-                        notify: true,
-                        value: function() { return null;}
+                        value: function () {
+                            return null;
+                        }
                     }
                 };
             }
@@ -147,6 +140,6 @@
             }
         }
 
-        window.customElements.define(PlutoniumSigninPanel.is, PlutoniumSigninPanel);
+        window.customElements.define(PlutoniumSignonPanel.is, PlutoniumSignonPanel);
     </script>
 </dom-module>
