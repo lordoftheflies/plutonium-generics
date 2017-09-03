@@ -117,7 +117,7 @@
         <template>
             <plutonium-signin-panel
                     id="signInPanelWithForgottenPassword"
-                    forgotten-password-url="#">
+                    forgotten-password-page="#">
             </plutonium-signin-panel>
         </template>
     </demo-snippet>
@@ -126,7 +126,7 @@
         <template>
             <plutonium-signin-panel
                     id="signInPanelWithRegistration"
-                    registration-url="#">
+                    registration-page="#">
             </plutonium-signin-panel>
         </template>
     </demo-snippet>
@@ -135,10 +135,42 @@
         <template>
             <plutonium-signin-panel
                     id="signInPanelComplex"
-                    forgotten-password-url="#"
-                    registration-url="#"
+                    forgotten-password-page="#"
+                    registration-page="#"
                     can-stay-signed>
             </plutonium-signin-panel>
+        </template>
+    </demo-snippet>
+
+    <h3>Basic Sign-on panel demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-signon-panel
+                    id="signInPanelBasic">
+            </plutonium-signon-panel>
+        </template>
+    </demo-snippet>
+
+
+    <h3>Basic Sign-on panel with signin demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-signon-panel
+                    id="signInPanelBasic"
+                    authentication-page="#">
+            </plutonium-signon-panel>
+        </template>
+    </demo-snippet>
+
+    <h3>Complex Sign-on panel demo</h3>
+    <demo-snippet>
+        <template>
+            <plutonium-signon-panel
+                    id="signInPanelComplex"
+                    registration-url="#"
+                    authentication-page="#"
+                    can-stay-signed>
+            </plutonium-signon-panel>
         </template>
     </demo-snippet>
 </div>
