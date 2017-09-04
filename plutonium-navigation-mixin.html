@@ -1,0 +1,188 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<script>
+    (function () {
+
+        'use strict';
+
+        // Create my namespace, if it doesn't exist
+        if (!window.Plutonium) {
+            window.Plutonium = {};
+        }
+
+        Plutonium.NavigationEvent = class NavigationEvent extends CustomEvent {
+            static get is() {
+                return 'plutonium-navigate';
+            }
+
+            constructor(path) {
+                super(window.Plutonium.NavigationEvent.is, {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        path: path
+                    }
+                });
+            }
+
+            toString() {
+                return window.Plutonium.NavigationEvent.is + '[path=' + this.detail.path + ']';
+            }
+        };
+
+        /**
+         * Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
+         *
+         * @mixinFunction
+         * @polymer
+         * @memberof Plutonium
+         * @property rootPattern {string} Set default root path for main element.
+         * @property page {string} Current page element.
+         * @property homePage {string} Homepage, where the base path redirect.
+         * @summary Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
+         */
+        Plutonium.NavigationMixin = Polymer.dedupingMixin((base) => class extends base {
+
+            /**
+             * Fired whenever a navigation fired.
+             *
+             * @event navigate
+             */
+
+            static get properties() {
+                return {
+
+                    /**
+                     * Current page
+                     */
+                    page: {
+                        type: String,
+                        reflectToAttribute: true,
+                        observer: '_pageChanged',
+                    },
+                    /**
+                     * Set default root path for main element
+                     */
+                    rootPattern: String,
+                    /**
+                     * Routedata contains path and query parameters
+                     */
+                    routeData: Object,
+                    /**
+                     * Tail of the unparsed route
+                     */
+                    subroute: String,
+                    /**
+                     * Homepage, where the base path redirect
+                     */
+                    homePage: {
+                        type: String,
+                        reflectToAttribute: true,
+                        value: '#'
+                    }
+                }
+            }
+
+            static get observers() {
+                return [
+                    '_routePageChanged(routeData.page)',
+                ];
+            }
+
+            constructor() {
+                super();
+                // Get root pattern for app-route, for more info about `rootPath` see:
+                // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
+                this.rootPattern = (new URL(this.rootPath)).pathname;
+                console.debug('Root path:', this.rootPattern);
+            }
+
+            ready() {
+                super.ready();
+
+                this.weakShadowDomConstraint('drawer', 'app-drawer');
+
+                this.addEventListener(window.Plutonium.NavigationEvent.is, e => {
+                    this._handleNavigation(e)
+                });
+
+                console.debug('Register navigate event listener');
+            }
+
+            /**
+             * Observer for the {routeData} object to change navigation.
+             * @param page New page name
+             * @private
+             */
+            _routePageChanged(page) {
+                // Polymer 2.0 will call with `undefined` on initialization.
+                // Ignore until we are properly called with a string.
+                if (page === undefined) {
+                    return;
+                }
+
+                // If no page was found in the route data, page will be an empty string.
+                // Deault to 'view1' in that case.
+                this.page = page || this.get('homePage');
+
+                // Close a non-persistent drawer when the page & route are changed.
+                if (!this.$.drawer.persistent) {
+                    this.$.drawer.close();
+                }
+            }
+
+            /**
+             * Observer for the current page changed
+             * @param page Current page name
+             * @private
+             */
+            _pageChanged(page) {
+                // Load page import on demand. Show 404 page if fails
+                var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+                Polymer.importHref(
+                    resolvedPageUrl,
+                    null,
+                    this._showPage404.bind(this),
+                    true);
+            }
+
+            /**
+             * Show 404 page.
+             *
+             * @private
+             */
+            _showPage404() {
+                this.page = 'view404';
+            }
+
+            /**
+             * Handle for navigation event.
+             *
+             * @param event Navigation event.
+             * @private
+             */
+            _handleNavigation(event) {
+                console.debug(this.fqdn, 'navigate from', this.get('page'), 'to', event.detail.path);
+                window.history.pushState({}, null, event.detail.path);
+                window.dispatchEvent(new CustomEvent('location-changed'));
+            }
+
+            /**
+             * Toggle main drawer.
+             */
+            toggleDrawer() {
+                this.$.drawer.toggle();
+            }
+        });
+
+    })();
+</script>
