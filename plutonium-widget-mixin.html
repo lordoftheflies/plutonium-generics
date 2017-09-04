@@ -19,6 +19,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             window.Plutonium = {};
         }
 
+        Plutonium.LightCompositionError = class LightCompositionError extends Error {
+            constructor(host, subject) {
+                super(host + ' element is not contain identified element ' + subject);
+            }
+        }
+
         Plutonium.WidgetMixin = Polymer.dedupingMixin((base) => class extends base {
             static get properties() {
                 return {
@@ -59,6 +65,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            strongShadowDomConstraint(id, elementType) {
+                let element = this.$[id];
+                if (element) {
+                    console.debug(this.fqen, 'satisfy shadow-dom constraint, has element', (elementType) ? elementType + '#' + id : '#' + id);
+                } else {
+                    console.warn(this.fqen, 'violate shadow-dom constraint');
+                    throw new LightCompositionError(this.fqen, id);
+                }
+            }
+
+            weakShadowDomConstraint(id, elementType) {
+                try {
+                    this.strongShadowDomConstraint(id, elementType);
+                } catch (e) {
+                    if (e instanceof Plutonium.LightCompositionError) {
+                        console.warn(e.message);
+                    } else {
+                        throw e;
+                    }
+                }
             }
         });
 
