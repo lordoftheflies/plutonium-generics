@@ -1,0 +1,176 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer-element.html">
+<script>
+    (function () {
+
+        'use strict';
+
+        // Create my namespace, if it doesn't exist
+        if (!window.Plutonium) {
+            window.Plutonium = {};
+        }
+
+
+        Plutonium.PopupEvent = class PopupEvent extends CustomEvent {
+
+            static get is() {
+                return 'plutonium-popup';
+            }
+
+            constructor(popup, content, title) {
+                super(window.Plutonium.PopupEvent.is, {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        title: title,
+                        popup: popup,
+                        content: content
+                    }
+                });
+            }
+
+            applyContent(consumerElement) {
+                if (consumerElement) {
+                    Object.keys(this.detail.content).map((key) => {
+                        consumerElement.set(key, this.detail.content[key]);
+                    });
+                }
+            }
+
+            postpone() {
+                return new window.Plutonium.NotificationEvent("info", this.detail.title, null, null);
+            }
+
+            toString() {
+                return window.Plutonium.PopupEvent.is + '[' + this.detail.popup + '] ' + JSON.stringify(this.detail.content);
+            }
+        };
+
+        Plutonium.PopupConsumerMixin = Polymer.dedupingMixin((base) => class extends base {
+            static get properties() {
+                return {
+                    promptId: {
+                        type: String,
+                        notify: true,
+                        value: () => null
+                    },
+                    promptQuestion: {
+                        type: String,
+                        notify: true,
+                        value: () => null
+                    },
+                    promptYes: {
+                        type: String,
+                        notify: true,
+                        value: () => null
+                    },
+                    promptNo: {
+                        type: String,
+                        notify: true,
+                        value: () => null
+                    },
+                    backendUrl: String,
+
+                    _popped: {
+                        type: Object,
+                        notify: true,
+                        value: () => null
+                    }
+                }
+            }
+
+            ready() {
+                super.ready();
+
+                this.weakShadowDomConstraint('alertDialog', 'paper-dialog');
+                this.weakShadowDomConstraint('promptDialog', 'paper-dialog');
+
+                this.addEventListener(window.Plutonium.PopupEvent.is, 'plutonium-popup', e => {
+                    this._onPopup(e)
+                });
+            }
+
+            _onPopup(event) {
+                try {
+                    this.strongShadowDomConstraint(event.detail.popup, 'paper-dialog');
+
+                    let popup = this.$[event.detail.popup];
+
+                    if (this.get('_popped')) {
+                        this.dispatchEvent(event.createPostponeNotificationEvent());
+                    } else {
+                        this.set('_popped', event.detail);
+                        popup.open();
+                    }
+                } catch (exception) {
+                    if (exception instanceof Plutonium.LightCompositionError) {
+                        console.warn(exception.message);
+                    } else {
+                        throw exception;
+                    }
+                }
+            }
+
+            _onPopdown(event) {
+                try {
+                    let popup = this.$[event.detail.popup];
+                    if (popup) {
+                        this.set('_popped', null);
+                        popup.close();
+                    }
+                } catch (exception) {
+                    if (exception instanceof Plutonium.LightCompositionError) {
+                        console.warn(exception.message);
+                    } else {
+                        throw exception;
+                    }
+                }
+            }
+
+            openPrompt() {
+                this.$.promptDialog.open();
+            }
+
+            applyPrompt() {
+                this.dispatchEvent(new CustomEvent('plutonium-apply', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        promptId: self.promptId
+                    }
+                }));
+                this.$.promptDialog.close();
+            }
+
+            declinePrompt() {
+                this.dispatchEvent(new CustomEvent('plutonium-cancel', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        promptId: self.promptId
+                    }
+                }));
+                this.$.promptDialog.close();
+            }
+
+            openAlert() {
+                this.$.alertDialog.open();
+            }
+
+            closeAlert() {
+                this.$.alertDialog.close();
+            }
+
+        });
+
+    })();
+</script>

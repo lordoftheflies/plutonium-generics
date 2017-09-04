@@ -35,22 +35,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          */
         Plutonium.GenericMixin = Polymer.dedupingMixin((base) => class extends base {
 
-
             static get properties() {
                 return {
                     verbose_name_plural: {
                         type: String,
-                        value: 'items'
+                        notify: true
                     },
                     verbose_name: {
                         type: String,
-                        value: 'item'
+                        notify: true
+                    },
+                    plural: {
+                        type: Boolean,
+                        notify: true,
+                        value: () => false
                     },
                     title: {
                         type: String,
-                        value: 'item'
+                        notify: true
+                    },
+                    _displayName: {
+                        type: String,
+                        computed: '_computeDisplayName(verbose_name, verbose_name_plural, title, plural)'
                     }
                 };
+            }
+
+            _computeDisplayName(verbose_name, verbose_name_plural, title, plural) {
+                return plural ?
+                    (verbose_name_plural ? verbose_name_plural : title) :
+                    (verbose_name ? verbose_name : title);
             }
         });
 

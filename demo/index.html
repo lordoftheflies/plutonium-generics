@@ -10,6 +10,11 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../app-layout/app-drawer/app-drawer.html">
+    <link rel="import" href="../../app-layout/app-drawer-layout/app-drawer-layout.html">
+    <link rel="import" href="../../iron-pages/iron-pages.html">
+    <link rel="import" href="../../paper-item/paper-item.html">
+    <!--<link rel="import" href="/app-layout/app-drawer-layout/app-drawer-layout.html">-->
     <link rel="import" href="../plutonium-generics.html">
 
     <custom-style>
@@ -18,73 +23,186 @@
     </custom-style>
 </head>
 <body>
-<div class="vertical-section-container centered">
-    <h3>Basic plutonium-generic-detailsview demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-generic-detailsview></plutonium-generic-detailsview>
-        </template>
-    </demo-snippet>
-    <h3>Basic plutonium-generic-listview demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-generic-listview
-                    items$='[{ "pk": 1, "displayName": "Macska", "description": "Lorem ipsum." }, { "pk": 2, "displayName": "Kacsa", "description": "Lorem ipsum." }, { "pk": 3, "displayName": "Kecske", "description": "Lorem ipsum." }]'>
+<app-drawer-layout fullbleed narrow>
+    <app-drawer slot="drawer">
+        <iron-selector selected="{{page}}" attr-for-selected="name" selection-enabled
+                       class="drawer-list" role="navigation">
+            <a name="plutonium-account-panel" href="#plutonium-account-panel-demo">
+                <paper-item>
+                    Plutonium Account panel
+                </paper-item>
+            </a>
+            <a name="plutonium-profile-panel" href="#plutonium-profile-panel-demo">
+                <paper-item>
+                    Plutonium Profile panel
+                </paper-item>
+            </a>
 
-            </plutonium-generic-listview>
-        </template>
-    </demo-snippet>
+            <a name="plutonium-signin-panel" href="#plutonium-signin-panel-demo">
+                <paper-item>
+                    Plutonium Signin panel
+                </paper-item>
+            </a>
 
-    <h3>Account panel default demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-account-panel
-                    id="accountPanelDefault"
-                    profile-page="https://www.google.com"
-                    login="Lordoftheflies"
-                    email="laszlo.hegedus@cherubits.hu">
-            </plutonium-account-panel>
-        </template>
-    </demo-snippet>
+            <a name="plutonium-signon-panel" href="#plutonium-signon-panel-demo">
+                <paper-item>
+                    Plutonium Signon panel
+                </paper-item>
+            </a>
+        </iron-selector>
+    </app-drawer>
 
-    <h3>Account panel avatar with image demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-account-panel
-                    id="accountPanelWithImage"
-                    profile-page="https://www.google.com"
-                    avatar-image="https://avatars0.githubusercontent.com/u/4078632?v=4&s=460"
-                    login="Lordoftheflies"
-                    email="laszlo.hegedus@cherubits.hu">
-            </plutonium-account-panel>
-        </template>
-    </demo-snippet>
+    <div>
+        <!--<iron-pages selected="[[page]]"-->
+        <!--attr-for-selected="name"-->
+        <!--role="main">-->
 
-    <h3>Account panel avatar with icon demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-account-panel
-                    id="accountPanelWithIcon"
-                    profile-page="https://www.google.com"
-                    avatar-icon="plutonium-icons:account-box"
-                    login="Lordoftheflies"
-                    email="laszlo.hegedus@cherubits.hu">
-            </plutonium-account-panel>
-        </template>
-    </demo-snippet>
+        <div id="plutonium-account-panel-demo" class="vertical-section-container centered">
+            <h3>Account panel default demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-account-panel
+                            id="accountPanelDefault"
+                            profile-page="https://www.google.com"
+                            login="Lordoftheflies"
+                            email="laszlo.hegedus@cherubits.hu">
+                    </plutonium-account-panel>
+                </template>
+            </demo-snippet>
 
-    <h3>Profile panel avatar with image demo</h3>
-    <demo-snippet>
-        <template>
-            <plutonium-profile-panel
-                    id="profilePanelWithImage"
-                    profile-page="https://www.google.com"
-                    avatar-image="https://avatars0.githubusercontent.com/u/4078632?v=4&s=460"
-                    login="Lordoftheflies"
-                    email="laszlo.hegedus@cherubits.hu">
-            </plutonium-profile-panel>
-        </template>
-    </demo-snippet>
-</div>
+            <h3>Account panel avatar with image demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-account-panel
+                            id="accountPanelWithImage"
+                            profile-page="https://www.google.com"
+                            avatar-image="https://avatars0.githubusercontent.com/u/4078632?v=4&s=460"
+                            login="Lordoftheflies"
+                            email="laszlo.hegedus@cherubits.hu">
+                    </plutonium-account-panel>
+                </template>
+            </demo-snippet>
+
+            <h3>Account panel avatar with icon demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-account-panel
+                            id="accountPanelWithIcon"
+                            profile-page="https://www.google.com"
+                            avatar-icon="plutonium-icons:account-box"
+                            login="Lordoftheflies"
+                            email="laszlo.hegedus@cherubits.hu">
+                    </plutonium-account-panel>
+                </template>
+            </demo-snippet>
+        </div>
+
+        <div id="plutonium-profile-panel-demo" class="vertical-section-container centered">
+            <h3>Profile panel avatar with image demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-profile-panel
+                            id="profilePanelWithImage"
+                            profile-page="https://www.google.com"
+                            avatar-image="https://avatars0.githubusercontent.com/u/4078632?v=4&s=460"
+                            login="Lordoftheflies"
+                            email="laszlo.hegedus@cherubits.hu">
+                    </plutonium-profile-panel>
+                </template>
+            </demo-snippet>
+        </div>
+        <div id="plutonium-signin-panel-demo" class="vertical-section-container centered">
+            <h3>Sign-in panel with login demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelWithLogin">
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+            <h3>Sign-in panel with email demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelWithEmail"
+                            email-auth>
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+            <h3>Sign-in panel stay signed in demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelWithCanStaySigned"
+                            can-stay-signed>
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+            <h3>Sign-in panel with forgotten password demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelWithForgottenPassword"
+                            forgotten-password-page="#">
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+            <h3>Sign-in panel with registration demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelWithRegistration"
+                            registration-page="#">
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+            <h3>Complex Sign-in panel demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signin-panel
+                            id="signInPanelComplex"
+                            forgotten-password-page="#"
+                            registration-page="#"
+                            can-stay-signed>
+                    </plutonium-signin-panel>
+                </template>
+            </demo-snippet>
+        </div>
+        <div id="plutonium-signon-panel-demo" class="vertical-section-container centered">
+            <h3>Basic Sign-on panel demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signon-panel
+                            id="signOnPanelBasic">
+                    </plutonium-signon-panel>
+                </template>
+            </demo-snippet>
+
+
+            <h3>Basic Sign-on panel with signin demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signon-panel
+                            id="signOnPanelWithSignin"
+                            authentication-page="#">
+                    </plutonium-signon-panel>
+                </template>
+            </demo-snippet>
+
+            <h3>Complex Sign-on panel demo</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-signon-panel
+                            id="signOnPanelComplex"
+                            registration-url="#"
+                            authentication-page="#"
+                            can-stay-signed>
+                    </plutonium-signon-panel>
+                </template>
+            </demo-snippet>
+        </div>
+    </div>
+    <!--</iron-pages>-->
+</app-drawer-layout>
 </body>
 </html>

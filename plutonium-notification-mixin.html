@@ -1,0 +1,162 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer-element.html">
+<script>
+    (function () {
+
+        'use strict';
+
+        // Create my namespace, if it doesn't exist
+        if (!window.Plutonium) {
+            window.Plutonium = {};
+        }
+
+
+        /**
+         * Fired whenever a notification fired.
+         *
+         * @event notify
+         */
+        Plutonium.NotificationEvent = class NotificationEvent extends CustomEvent {
+
+            static get is() {
+                return 'plutonium-notify';
+            }
+
+            constructor(level, message, icon, link) {
+                super('notify', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        message: message,
+                        level: level,
+                        link: link,
+                        icon: icon ? icon : "my-icons:" + level
+                    }
+                });
+            }
+
+            toString() {
+                return window.Plutonium.PopupEvent.is + '[level=' + this.detail.level + ', icon=' + this.detail.icon + ', link=' + this.detail.link + 'message=' + this.detail.message;
+            }
+        };
+
+        /**
+         * Element class mixin that producing notifications and messages.
+         *
+         * @mixinFunction
+         * @polymer
+         * @memberof Plutonium
+         * @summary Element class mixin that producing notifications and messages.
+         */
+        Plutonium.NotificationProducerMixin = Polymer.dedupingMixin((base) => class extends base {
+
+            notifyInformation(message) {
+                this.dispatchEvent(new window.Plutonium.NotificationEvent("info", message, null, null));
+            }
+
+            notifyWarning(message) {
+                this.dispatchEvent(new window.Plutonium.NotificationEvent("warning", message, null, null));
+            }
+
+            notifyError(message) {
+                this.dispatchEvent(new window.Plutonium.NotificationEvent("error", message, null, null));
+            }
+
+            notifySuccess(message) {
+                this.dispatchEvent(new window.Plutonium.NotificationEvent("success", message, null, null));
+            }
+
+            notifyDebug(event) {
+                this._generateNotification('debug');
+            }
+
+        });
+
+        /**
+         * Element class mixin that listening notifications and messages.
+         *
+         * @mixinFunction
+         * @polymer
+         * @memberof Plutonium
+         * @summary Element class mixin that listening notifications and messages.
+         */
+        Plutonium.NotificationConsumerMixin = Polymer.dedupingMixin((base) => class extends base {
+
+
+            static get properties() {
+                return {
+                    notifications: {
+                        type: Array,
+                        notify: true,
+                        value: []
+                    },
+                    _hasNotifications: {
+                        type: Boolean,
+                        computed: '_computeHasNotifications(notifications.length)'
+                    }
+                }
+            }
+
+            constructor() {
+                super();
+            }
+
+            ready() {
+                super.ready();
+
+                this.weakShadowDomConstraint('toast', 'paper-toast');
+
+                this.addEventListener(window.Plutonium.PopupEvent.is, e => {
+                    this._handleNotificationAdded(e)
+                });
+                console.debug('Register notification event listener');
+            }
+
+
+            _handleNotificationAdded(e) {
+                console.debug(e.target.id, 'notify', e.detail);
+                this.push('notifications', e.detail);
+                this.$.toast.open();
+            }
+
+            _handleNotificationRemoved(e) {
+                this.splice('notifications', e.target.innerHTML, 1);
+                if (this.notifications.length == 0) {
+                    this.$.toast.close();
+                }
+            }
+
+            _handleNotificationAllRemoved(e) {
+                this.splice('notifications', e.target.index, this.notifications.length);
+                this.$.toast.close();
+            }
+
+            _computeHasNotifications(notifications) {
+                return notifications > 0;
+            }
+
+            _computeNotificationIcon(notification) {
+                var icn = "";
+                if (notification !== undefined && notification !== null) {
+                    if (notification.icon) {
+                        icn = notification.icon;
+                    } else {
+                        icn = 'my-icons:' + notification.level;
+                    }
+                }
+                console.debug('computed icon >', icn);
+                return icn;
+            }
+        });
+
+    })();
+</script>
