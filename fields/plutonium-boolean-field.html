@@ -1,0 +1,90 @@
+<link rel="import" href="../../polymer/polymer-element.html">
+<link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-input/paper-input-container.html">
+<link rel="import" href="../../iron-collapse/iron-collapse.html">
+<link rel="import" href="../../iron-form-element-behavior/iron-form-element-behavior.html">
+<!--<link rel="import" href="../iron-icon/iron-icon.html">-->
+<!--<link rel="import" href="../paper-item/paper-icon-item.html">-->
+<!--<link rel="import" href="../paper-styles/default-theme.html">-->
+
+<!--<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">-->
+<!--<link rel="import" href="../paper-input/paper-input.html">-->
+<!--<link rel="import" href="../paper-button/paper-button.html">-->
+<link rel="import" href="../plutonium-widget-mixin.html">
+<link rel="import" href="../plutonium-icons.html">
+<link rel="import" href="../plutonium-shared-styles.html">
+<link rel="import" href="plutonium-field.html">
+
+<dom-module id="plutonium-boolean-field">
+    <template>
+        <style include="plutonium-shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
+        <plutonium-field
+                label="[[label]]"
+                help-text="[[helpText]]"
+                attrForValue="checked">
+            <!--TODO: required flag implementation-->
+            <!--TODO: display field errors implementations-->
+            <div class="layout horizontal flex">
+                <label class="flex">[[label]]</label>
+                <paper-toggle-button checked="{{value}}">
+                </paper-toggle-button>
+            </div>
+            <p slot="help">[[helpText]]</p>
+        </plutonium-field>
+    </template>
+
+    <script>
+        /**
+         * `plutonium-boolean-field`
+         * User account information panel.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PlutoniumBooleanField extends Polymer.mixinBehaviors([Polymer.IronFormElementBehavior], window.Plutonium.WidgetMixin(Polymer.Element)) {
+            static get is() {
+                return 'plutonium-boolean-field';
+            }
+
+            static get properties() {
+                return {
+                    label: {
+                        type: String,
+                        notify: true
+                    },
+                    helpText: {
+                        type: String,
+                        notify: true
+                    }
+                };
+            }
+
+            get json() {
+                return {};
+            }
+
+            _determineErrorClass(boundFieldErrors) {
+                return boundFieldErrors ? 'has-error flex' : 'flex';
+            }
+
+
+            ready() {
+                super.ready();
+                console.debug(this.fqen, 'properties', this.json);
+            }
+
+
+            onToggleHelp(event) {
+                this.$.collapse.toggle();
+            }
+        }
+
+        window.customElements.define(PlutoniumBooleanField.is, PlutoniumBooleanField);
+    </script>
+</dom-module>
