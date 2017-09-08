@@ -37,35 +37,36 @@
                 </template>
                 <h1>Sign in</h1>
                 <template is="dom-if" if="[[registrationPage]]">
-                    <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
+                    <a href="[[registrationPage]]">[[]]</a>
                 </template>
 
                 <template is="dom-if" if="[[emailAuth]]">
-                    <paper-input name="email" type="email" label="Email" value="{{login}}" required></paper-input>
+                    <paper-input name="email" type="email" label="[[emailLabel]]" value="{{login}}" required></paper-input>
                 </template>
                 <template is="dom-if" if="[[!emailAuth]]">
-                    <paper-input name="login" type="text" label="Login name" value="{{login}}" required></paper-input>
+                    <paper-input name="login" type="text" label="[[loginLabel]]" value="{{login}}"
+                                 required></paper-input>
                 </template>
 
                 <paper-input name="password" type="password"
-                             label="Password"
+                             label="[[passwordLabel]]"
                              value="{{password}}"
                              required>
                 </paper-input>
                 <template is="dom-if" if="[[canStaySigned]]">
-                    <paper-toggle-button checked="{{staySigned}}">Stay signed</paper-toggle-button>
+                    <paper-toggle-button checked="{{staySigned}}">[[staySignedLabel]]</paper-toggle-button>
                 </template>
                 <br/>
 
                 <template is="dom-if" if="[[forgottenPasswordPage]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit" on-tap="submitForm">Singin</paper-button>
-                        <a href="[[forgottenPasswordPage]]" class="flex-center-align">Forgotten password</a>
+                        <paper-button raised type="submit" on-tap="submitForm">[[siginLabel]]</paper-button>
+                        <a href="[[forgottenPasswordPage]]" class="flex-center-align">[[forgottenPasswordLabel]]</a>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!forgottenPasswordUrl]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit" on-tap="submitForm">Singin</paper-button>
+                        <paper-button raised type="submit" on-tap="submitForm">[[siginLabel]]</paper-button>
                     </div>
                 </template>
             </form>
@@ -141,6 +142,47 @@
                         value: function () {
                             return null;
                         }
+                    },
+
+                    titleLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Please sign-in'
+                    },
+                    signinLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Sign-in'
+                    },
+                    signonLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Sign-on, if you have no account'
+                    },
+                    forgottenPasswordLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Forgotten password'
+                    },
+                    loginLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Username'
+                    },
+                    emailLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Email'
+                    },
+                    passwordLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Password'
+                    },
+                    staySignedLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Stay signed'
                     }
                 };
             }
