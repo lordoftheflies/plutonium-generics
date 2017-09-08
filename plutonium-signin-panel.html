@@ -44,11 +44,11 @@
                     <paper-input name="email" type="email" label="[[emailLabel]]" value="{{login}}" required></paper-input>
                 </template>
                 <template is="dom-if" if="[[!emailAuth]]">
-                    <paper-input name="login" type="text" label="[[loginLabel]]" value="{{login}}"
+                    <paper-input name="[[nameOfLogin]]" type="text" label="[[loginLabel]]" value="{{login}}"
                                  required></paper-input>
                 </template>
 
-                <paper-input name="password" type="password"
+                <paper-input name="[[nameOfPassword]]" type="password"
                              label="[[passwordLabel]]"
                              value="{{password}}"
                              required>
@@ -183,6 +183,16 @@
                         type: String,
                         notify: true,
                         value: () => 'Stay signed'
+                    },
+                    nameOfLogin: {
+                        type: String,
+                        notify: true,
+                        value: () => 'username'
+                    },
+                    nameOfPassword: {
+                        type: String,
+                        notify: true,
+                        value: () => 'password'
                     }
                 };
             }
