@@ -32,7 +32,9 @@
         </style>
         <iron-form id="loginForm" allow-redirect="[[django]]">
             <form method="post" action="[[authenticationUrl]]">
-                <slot name="csrf"></slot>
+                <template is="dom-if" if="[[csrfMiddlewareToken]]">
+                    <input name="csrfmiddlewaretoken" value="[[csrfMiddlewareToken]]" type="hidden"></input>
+                </template>
                 <h1>Sign in</h1>
                 <template is="dom-if" if="[[registrationPage]]">
                     <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
@@ -120,6 +122,11 @@
                     authenticationUrl: {
                         type: String,
                         notify: true
+                    },
+                    csrfMiddlewareToken: {
+                        type: String,
+                        notify: true,
+                        value: () => null
                     },
                     forgottenPasswordPage: {
                         type: String,
