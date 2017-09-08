@@ -28,7 +28,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Plutonium.WidgetMixin = Polymer.dedupingMixin((base) => class extends base {
             static get properties() {
                 return {
-                    backendUrl: String
+                    backendUrl: String,
+                    django: {
+                        type: Boolean,
+                        notify: true,
+                        reflectToAttribute: true,
+                        value: () => false
+                    }
                 }
             }
 

@@ -29,13 +29,13 @@
             }
 
         </style>
-        <iron-form id="loginForm">
-            <h1>Sign in</h1>
-            <template is="dom-if" if="[[registrationPage]]">
-                <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
-            </template>
-
+        <iron-form id="loginForm" allow-redirect="[[django]]">
             <form method="post" action="[[authenticationUrl]]">
+                <h1>Sign in</h1>
+                <template is="dom-if" if="[[registrationPage]]">
+                    <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
+                </template>
+
                 <template is="dom-if" if="[[emailAuth]]">
                     <paper-input name="email" type="email" label="Email" value="{{login}}" required></paper-input>
                 </template>
@@ -51,7 +51,7 @@
                 <template is="dom-if" if="[[canStaySigned]]">
                     <paper-toggle-button checked="{{staySigned}}">Stay signed</paper-toggle-button>
                 </template>
-                <br />
+                <br/>
 
                 <template is="dom-if" if="[[forgottenPasswordPage]]">
                     <div class="container flex-equal-around-justified">
@@ -122,12 +122,16 @@
                     forgottenPasswordPage: {
                         type: String,
                         notify: true,
-                        value: function() { return null;}
+                        value: function () {
+                            return null;
+                        }
                     },
                     registrationPage: {
                         type: String,
                         notify: true,
-                        value: function() { return null;}
+                        value: function () {
+                            return null;
+                        }
                     }
                 };
             }
