@@ -1,0 +1,72 @@
+<!--
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer-element.html">
+
+<script>
+    (function () {
+        'use strict';
+
+        // Create my namespace, if it doesn't exist
+        if (!window.Plutonium) {
+            window.Plutonium = {};
+        }
+
+        /**
+         * @mixinFunction
+         * @polymer
+         * @appliesMixin Polymer.PropertyEffects
+         * @memberof Polymer
+         * @property rootPath {string} Set to the value of `Polymer.rootPath`,
+         *   which defaults to the main document path
+         * @property importPath {string} Set to the value of the class's static
+         *   `importPath` property, which defaults to the path of this element's
+         *   `dom-module` (when `is` is used), but can be overridden for other
+         *   import strategies.
+         * @summary Element class mixin that provides the core API for Polymer's
+         * meta-programming features.
+         */
+        Plutonium.FieldMixin = Polymer.dedupingMixin((base) => class extends base {
+
+            static get properties() {
+                return {
+                    verbose_name_plural: {
+                        type: String,
+                        notify: true
+                    },
+                    verbose_name: {
+                        type: String,
+                        notify: true
+                    },
+                    plural: {
+                        type: Boolean,
+                        notify: true,
+                        value: () => false
+                    },
+                    title: {
+                        type: String,
+                        notify: true
+                    },
+                    _displayName: {
+                        type: String,
+                        computed: '_computeDisplayName(verbose_name, verbose_name_plural, title, plural)'
+                    }
+                };
+            }
+
+            _computeDisplayName(verbose_name, verbose_name_plural, title, plural) {
+                return plural ?
+                    (verbose_name_plural ? verbose_name_plural : title) :
+                    (verbose_name ? verbose_name : title);
+            }
+        });
+
+    })();
+</script>

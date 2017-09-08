@@ -14,7 +14,7 @@
     <link rel="import" href="../../app-layout/app-drawer-layout/app-drawer-layout.html">
     <link rel="import" href="../../iron-pages/iron-pages.html">
     <link rel="import" href="../../paper-item/paper-item.html">
-    <!--<link rel="import" href="/app-layout/app-drawer-layout/app-drawer-layout.html">-->
+    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="../plutonium-generics.html">
 
     <custom-style>
@@ -47,6 +47,13 @@
             <a name="plutonium-signon-panel" href="#plutonium-signon-panel-demo">
                 <paper-item>
                     Plutonium Signon panel
+                </paper-item>
+            </a>
+
+
+            <a name="plutonium-fields" href="#plutonium-fields-demo">
+                <paper-item>
+                    Plutonium Fields
                 </paper-item>
             </a>
         </iron-selector>
@@ -198,6 +205,48 @@
                             authentication-page="#"
                             can-stay-signed>
                     </plutonium-signon-panel>
+                </template>
+            </demo-snippet>
+        </div>
+        <div id="plutonium-fields-demo" class="vertical-section-container centered">
+            <h3>plutonium-boolean-field</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-boolean-field
+                            id="field0"
+                            name="field0Name"
+                            label="Logical value #0"
+                            value="true"
+                            help-text="Lorem ipsum"
+                            required>
+                    </plutonium-boolean-field>
+                    <plutonium-boolean-field
+                            id="field1"
+                            name="field1Name"
+                            label="Logical value #1"
+                            help-text="Lorem ipsum doloret amen sub ipsum."
+                            required>
+                    </plutonium-boolean-field>
+                </template>
+            </demo-snippet>
+            <h3>plutonium-char-field</h3>
+            <demo-snippet>
+                <template>
+                    <plutonium-char-field
+                            id="field2"
+                            name="field2Name"
+                            label="String value #2"
+                            value="true"
+                            help-text="Lorem ipsum"
+                            required>
+                    </plutonium-char-field>
+                    <plutonium-char-field
+                            id="field3"
+                            name="field3Name"
+                            label="String value #3"
+                            help-text="Lorem ipsum doloret amen sub ipsum."
+                            required>
+                    </plutonium-char-field>
                 </template>
             </demo-snippet>
         </div>
