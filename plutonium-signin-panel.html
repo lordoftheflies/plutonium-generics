@@ -55,13 +55,13 @@
 
                 <template is="dom-if" if="[[forgottenPasswordPage]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit">Singin</paper-button>
+                        <paper-button raised type="submit" on-tap="submitForm">Singin</paper-button>
                         <a href="[[forgottenPasswordPage]]" class="flex-center-align">Forgotten password</a>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!forgottenPasswordUrl]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit">Singin</paper-button>
+                        <paper-button raised type="submit" on-tap="submitForm">Singin</paper-button>
                     </div>
                 </template>
             </form>
@@ -148,6 +148,11 @@
             ready() {
                 super.ready();
                 console.debug(this.fqen, 'properties', this.json);
+            }
+
+            submitForm() {
+                console.debug(this.fqen, 'submit', this.$.loginForm.serializeForm());
+                this.$.loginForm.submit();
             }
         }
 
