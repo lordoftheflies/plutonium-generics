@@ -152,8 +152,14 @@
             }
 
             submitForm() {
-                console.debug(this.fqen, 'submit', this.$.loginForm.serializeForm());
-                this.$.loginForm.submit();
+                let isFormValid = this.$.loginForm.validate();
+                if (isFormValid) {
+                    console.debug(this.fqen, 'submit', this.$.loginForm.serializeForm());
+                    this.$.loginForm.submit();
+                } else {
+                    console.debug(this.fqen, 'is invalid, reset');
+                    this.$.loginForm.reset();
+                }
             }
         }
 
