@@ -60,13 +60,13 @@
 
                 <template is="dom-if" if="[[forgottenPasswordPage]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit" on-tap="submitForm">[[siginLabel]]</paper-button>
+                        <paper-button raised type="submit" on-tap="submitForm">[[signinLabel]]</paper-button>
                         <a href="[[forgottenPasswordPage]]" class="flex-center-align">[[forgottenPasswordLabel]]</a>
                     </div>
                 </template>
                 <template is="dom-if" if="[[!forgottenPasswordUrl]]">
                     <div class="container flex-equal-around-justified">
-                        <paper-button raised type="submit" on-tap="submitForm">[[siginLabel]]</paper-button>
+                        <paper-button raised type="submit" on-tap="submitForm">[[signinLabel]]</paper-button>
                     </div>
                 </template>
             </form>
