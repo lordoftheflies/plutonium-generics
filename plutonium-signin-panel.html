@@ -32,6 +32,7 @@
         </style>
         <iron-form id="loginForm" allow-redirect="[[django]]">
             <form method="post" action="[[authenticationUrl]]">
+                <slot></slot>
                 <h1>Sign in</h1>
                 <template is="dom-if" if="[[registrationPage]]">
                     <span>Or <a href="[[registrationPage]]">register</a>, if you have no account.</span>
