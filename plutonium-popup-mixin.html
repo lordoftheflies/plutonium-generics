@@ -87,15 +87,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         notify: true,
                         value: () => null
                     },
-                    promptYes: {
+                    promptTrueLabel: {
                         type: String,
                         notify: true,
-                        value: () => null
+                        value: () => 'Ok'
                     },
-                    promptNo: {
+                    promptFalseLabel: {
                         type: String,
                         notify: true,
-                        value: () => null
+                        value: () => 'Cancel'
+                    },
+                    approveLabel: {
+                        type: String,
+                        notify: true,
+                        value: () => 'Cancel'
                     },
                     backendUrl: String,
 
