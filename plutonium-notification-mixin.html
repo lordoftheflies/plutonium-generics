@@ -139,6 +139,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             _handleNotificationRemoved(e) {
+                console.debug('remove notification from index', e.target.innerHTML);
                 this.splice('notifications', e.target.innerHTML, 1);
                 if (this.notifications.length == 0) {
                     this.$.toast.close();
@@ -146,6 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             _handleNotificationAllRemoved(e) {
+                console.debug('remove all notifications');
                 this.splice('notifications', e.target.index, this.notifications.length);
                 this.$.toast.close();
             }
