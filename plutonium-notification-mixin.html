@@ -115,7 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 this.weakShadowDomConstraint('toast', 'paper-toast');
 
-                this.addEventListener(window.Plutonium.PopupEvent.is, e => {
+                this.addEventListener(window.Plutonium.NotificationEvent.is, e => {
                     this._handleNotificationAdded(e)
                 });
                 console.debug('Register notification event listener');
