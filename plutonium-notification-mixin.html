@@ -45,7 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             toString() {
-                return window.Plutonium.PopupEvent.is + '[level=' + this.detail.level + ', icon=' + this.detail.icon + ', link=' + this.detail.link + 'message=' + this.detail.message;
+                return window.Plutonium.NotificationEvent.is + '[level=' + this.detail.level + ', icon=' + this.detail.icon + ', link=' + this.detail.link + 'message=' + this.detail.message;
             }
         };
 
@@ -60,23 +60,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Plutonium.NotificationProducerMixin = Polymer.dedupingMixin((base) => class extends base {
 
             notifyInformation(message) {
-                this.dispatchEvent(new window.Plutonium.NotificationEvent("info", message, null, null));
+                let event = new window.Plutonium.NotificationEvent("info", message, null, null);
+                console.debug('fire-event', event.toString());
+                this.dispatchEvent(event);
             }
 
             notifyWarning(message) {
-                this.dispatchEvent(new window.Plutonium.NotificationEvent("warning", message, null, null));
+                let event = new window.Plutonium.NotificationEvent("warning", message, null, null);
+                console.debug('fire-event', event.toString());
+                this.dispatchEvent(event);
             }
 
             notifyError(message) {
-                this.dispatchEvent(new window.Plutonium.NotificationEvent("error", message, null, null));
+                let event = new window.Plutonium.NotificationEvent("error", message, null, null)
+                console.debug('fire-event', event.toString());
+                this.dispatchEvent(event);
             }
 
             notifySuccess(message) {
-                this.dispatchEvent(new window.Plutonium.NotificationEvent("success", message, null, null));
+                let event = new window.Plutonium.NotificationEvent("success", message, null, null);
+                console.debug('fire-event', event.toString());
+                this.dispatchEvent(event);
             }
 
             notifyDebug(message) {
                 this.dispatchEvent(new window.Plutonium.NotificationEvent("debug", message, null, null));
+            notifyDebug(event) {
+                this._generateNotification('debug');
+                console.debug('fire-event', event.toString());
             }
 
         });
