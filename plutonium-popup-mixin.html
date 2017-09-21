@@ -55,15 +55,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         };
 
+        Plutonium.PromptEvent = class PromptEvent extends PopupEvent {
+
+            static get is() {
+                return 'plutonium-popup-prompt';
+            }
+
+            constructor(content, title, trueEvent, falseEvent) {
+                super('promptDialog', content, title);
+                this.detail.trueEvent = trueEvent;
+                this.detail.falseEvent = falseEvent;
+            }
+
+            toString() {
+                return window.Plutonium.PromptEvent.is + '[' + this.detail.popup + '] ' + JSON.stringify(this.detail.content);
+            }
+        };
+
+        Plutonium.AlertEvent = class AlertEvent extends PopupEvent {
+
+            static get is() {
+                return 'plutonium-popup-alert';
+            }
+
+            constructor(popup, content, title, approveEvent) {
+                super('alertDialog', content, title);
+                this.detail.approveEvent = approveEvent;
+            }
+
+            toString() {
+                return window.Plutonium.AlertEvent.is + '[' + this.detail.popup + '] ' + JSON.stringify(this.detail.content);
+            }
+        };
+
         Plutonium.PopupProducerMixin = Polymer.dedupingMixin((base) => class extends base {
-            prompt(title, text) {
-                let event = new window.Plutonium.PopupEvent("promptDialog", text, title);
+            prompt(title, text, trueEvent, falseEvent) {
+                let event = new window.Plutonium.PromptEvent(text, title, trueEvent, falseEvent);
                 console.debug('fire-event', event.toString());
                 this.dispatchEvent(event);
             }
 
-            alert(title, text) {
-                let event = new window.Plutonium.PopupEvent("alertDialog", text, title);
+            alert(title, text, approveEvent) {
+                let event = new window.Plutonium.AlertEvent(text, title, approveEvent);
                 console.debug('fire-event', event.toString());
                 this.dispatchEvent(event);
             }
@@ -163,38 +196,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             }
 
-            openPrompt() {
-                this.$.promptDialog.open();
-            }
-
-            applyPrompt() {
-                this.dispatchEvent(new CustomEvent('plutonium-apply', {
+            applyPrompt(event) {
+                this.dispatchEvent(new CustomEvent(this.get('_popped.trueEvent'), {
                     bubbles: true,
                     composed: true,
-                    detail: {
-                        promptId: self.promptId
-                    }
+                    detail: event.detail
                 }));
-                this.$.promptDialog.close();
+                this._onPopdown(event);
             }
 
-            declinePrompt() {
-                this.dispatchEvent(new CustomEvent('plutonium-cancel', {
+            declinePrompt(event) {
+                this.dispatchEvent(new CustomEvent(this.get('_popped.falseEvent'), {
                     bubbles: true,
                     composed: true,
-                    detail: {
-                        promptId: self.promptId
-                    }
+                    detail: event.detail
                 }));
-                this.$.promptDialog.close();
+                this._onPopdown(event);
             }
 
-            openAlert() {
-                this.$.alertDialog.open();
-            }
-
-            closeAlert() {
-                this.$.alertDialog.close();
+            closeAlert(event) {
+                this.dispatchEvent(new CustomEvent(this.get('_popped.approveEvent'), {
+                    bubbles: true,
+                    composed: true,
+                    detail: event.detail
+                }));
+                this._onPopdown(event);
             }
 
         });
