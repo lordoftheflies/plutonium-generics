@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         };
 
-        Plutonium.PromptEvent = class PromptEvent extends PopupEvent {
+        Plutonium.PromptEvent = class PromptEvent extends window.Plutonium.PopupEvent {
 
             static get is() {
                 return 'plutonium-popup-prompt';
@@ -72,7 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         };
 
-        Plutonium.AlertEvent = class AlertEvent extends PopupEvent {
+        Plutonium.AlertEvent = class AlertEvent extends window.Plutonium.PopupEvent {
 
             static get is() {
                 return 'plutonium-popup-alert';
