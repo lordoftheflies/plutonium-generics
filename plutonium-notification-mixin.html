@@ -75,8 +75,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.dispatchEvent(new window.Plutonium.NotificationEvent("success", message, null, null));
             }
 
-            notifyDebug(event) {
-                this._generateNotification('debug');
+            notifyDebug(message) {
+                this.dispatchEvent(new window.Plutonium.NotificationEvent("debug", message, null, null));
             }
 
         });
