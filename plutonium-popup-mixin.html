@@ -154,6 +154,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener(window.Plutonium.PopupEvent.is, e => {
                     this._onPopup(e)
                 });
+                this.addEventListener(window.Plutonium.PromptEvent.is, e => {
+                    this._onPopup(e)
+                });
+                this.addEventListener(window.Plutonium.AlertEvent.is, e => {
+                    this._onPopup(e)
+                });
                 console.debug('Register popup event listener');
             }
 
