@@ -130,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     let popup = this.$[event.detail.popup];
 
                     if (this.get('_popped')) {
-                        this.dispatchEvent(event.createPostponeNotificationEvent());
+                        this.dispatchEvent(event.postpone());
                     } else {
                         this.set('_popped', event.detail);
                         popup.open();
