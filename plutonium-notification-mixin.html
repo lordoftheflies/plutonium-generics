@@ -84,10 +84,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             notifyDebug(message) {
-                this.dispatchEvent(new window.Plutonium.NotificationEvent("debug", message, null, null));
-            notifyDebug(event) {
-                this._generateNotification('debug');
+                let event = new window.Plutonium.NotificationEvent("debug", message, null, null);
                 console.debug('fire-event', event.toString());
+                this.dispatchEvent(event);
             }
 
         });
