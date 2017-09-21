@@ -77,12 +77,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         notify: true,
                         value: () => null
                     },
-                    title: {
+                    modalTitle: {
                         type: String,
                         notify: true,
                         value: () => null
                     },
-                    text: {
+                    modalText: {
                         type: String,
                         notify: true,
                         value: () => null
@@ -121,6 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener(window.Plutonium.PopupEvent.is, e => {
                     this._onPopup(e)
                 });
+                console.debug('Register popup event listener');
             }
 
             _onPopup(event) {
@@ -133,6 +134,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         this.dispatchEvent(event.postpone());
                     } else {
                         this.set('_popped', event.detail);
+                        this.set('modalTitle', event.detail.title);
+                        this.set('modalText', event.detail.content);
                         popup.open();
                     }
                 } catch (exception) {
@@ -146,7 +149,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             _onPopdown(event) {
                 try {
-                    let popup = this.$[event.detail.popup];
+                    let popup = event.currentTarget.parentElement.parentElement;
                     if (popup) {
                         this.set('_popped', null);
                         popup.close();
