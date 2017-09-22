@@ -113,22 +113,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Plutonium.CommandStoreMixin = Polymer.dedupingMixin((base) => class extends base {
                 static get properties() {
                     return {
-                        actions: {
+                        actionList: {
                             type: Array,
-                            compute: 'computeActionList(_map.*)'
+                            compute: 'computeActionList(actions.*)'
                         },
-                        _map: {
+                        actions: {
                             type: Object,
                             notify: true,
-                            value: () => {
-                            }
+                            value: {}
                         }
                     };
                 }
 
                 connectedCallback() {
                     super.connectedCallback();
-                    this.get('actions').forEach(function callback(commandEvent, index, array) {
+                    this.get('actionsList').forEach(function callback(commandEvent, index, array) {
                         console.debug('listen to action:', commandEvent.toString());
                         commandEvent.attach(this);
                     }, this);
@@ -137,28 +136,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 disconnectedCallback() {
                     super.disconnectedCallback();
-                    this.get('actions').forEach(function callback(currentValue, index, array) {
+                    this.get('actionList').forEach(function callback(commandEvent, index, array) {
                         console.debug('unlisten to action:', commandEvent.toString());
-                        currentValue.detach(this);
+                        commandEvent.detach(this);
                     }, this);
                 }
 
                 declareAction(name, target, event, args, handler, icon, text, help) {
                     let command = new window.Plutonium.CommandEvent(name, target, event, args, handler, icon, text, help);
-                    if (this.get('_map'))
-                        this.set('_map', {});
-                    this.get('_map')[command.commandName] = command;
+                    if (this.get('actions')) {
+                        this.get('_map')[command.commandName] = command;
+                    }
                 }
 
                 cleanAction(name) {
-                    delete this._map[command.commandName];
+                    delete this.actions[name];
                 }
 
                 computeActionList(changeRecord) {
-                    let actionMap = this._map;
-                    return Object.keys(actionMap).map(function (key) {
-                        return actionMap[key];
-                    });
+                    let actionMap = this.actions;
+//                    return Object.keys(actionMap).map(function (key) {
+//                        return actionMap[key];
+//                    });
+                    return Object.values(actionMap);
                 }
             }
         )
