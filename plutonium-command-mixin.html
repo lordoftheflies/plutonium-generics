@@ -24,17 +24,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-action';
             }
 
-            constructor(target, event, args, handler) {
+            constructor(name, target, event, args, handler, text, help) {
                 super(window.Plutonium.CommandEvent.is, {
                     bubbles: true,
                     composed: true,
                     detail: {
+                        name: name,
+                        text: text,
+                        help: help,
                         target: target,
                         event: event,
                         detail: args,
                         handler: handler
                     }
                 });
+            }
+
+            get commandHelp() {
+                return this.detail.help;
+            }
+
+            get commandText() {
+                return this.detail.text;
+            }
+
+            get commandName() {
+                return this.detail.name;
             }
 
             get commandTarget() {
@@ -91,32 +106,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * @summary Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
          */
         Plutonium.CommandStoreMixin = Polymer.dedupingMixin((base) => class extends base {
-            static get properties() {
-                return {
-                    actions: {
-                        type: Array,
-                        notify: true,
-                        value: () => []
-                    }
-                };
-            }
+                static get properties() {
+                    return {
+                        actions: {
+                            type: Array,
+                            notify: true,
+                            value: () => []
+                        },
+                        _map: {
+                            type: Object,
+                            notify: true,
+                            value: () => {}
+                        }
+                    };
+                }
 
-            ready() {
-                super.ready();
-
+                connectedCallback() {
+                    super.connectedCallback();
 //                this.weakShadowDomConstraint('toast', 'paper-toast');
+                    this.get('actions').forEach(function callback(commandEvent, index, array) {
+                        console.debug('listen to action:', commandEvent.toString());
+                        commandEvent.attach(this);
+                    }, this);
 
-                this.addEventListener(window.Plutonium.CommandEvent.is, e => {
-                    this._handleNotificationAdded(e)
-                });
-                console.debug('Register notification event listener');
-            }
+                }
 
-            declareAction(commandName, subjectElement, targetEvent, commandHandler) {
-                let command = window.Plutonium.CommandEvent(subjectElement, targetEvent, commandHandler);
-                let command = window.Plutonium.CommandEvent(target, subject, event, args, handler);
-                this.set('actions.' + commandName, command);
+                disconnectedCallback() {
+                    super.disconnectedCallback();
+                    this.get('actions').forEach(function callback(currentValue, index, array) {
+                        console.debug('unlisten to action:', commandEvent.toString());
+                        currentValue.detach(this);
+                    }, this);
+                }
+
+                declareAction(commandName, target, event, args, handler) {
+                    let command = window.Plutonium.CommandEvent(subjectElement, targetEvent, commandHandler);
+//                let command = window.Plutonium.CommandEvent(target, subject, event, args, handler);
+//                this.set('actions.' + commandName, command);
+                    this.push('actions', command);
+                }
             }
-        });
+        )
+        ;
     })();
 </script>
