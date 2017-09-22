@@ -24,36 +24,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-action';
             }
 
-            constructor(target, subject, event, handle, detail) {
+            constructor(target, event, args, handler) {
                 super(window.Plutonium.CommandEvent.is, {
                     bubbles: true,
                     composed: true,
                     detail: {
                         target: target,
                         event: event,
-                        handle: handle
+                        detail: args,
+                        handler: handler
                     }
                 });
             }
 
-            attach() {
-                this.detail.target.addEventListener(this.detail.event ? this.detail.event.type : this.detail.subject, this.detail.handle);
+            get commandTarget() {
+                return this.detail.target;
             }
 
-            detach() {
-                this.detail.target.removeEventListener(this.detail.event ? this.detail.event.type : this.detail.subject);
+            get commandSubject() {
+                return this.detail.subject;
+            }
+
+            get commandEvent() {
+                return this.detail.event;
+            }
+
+            get commandArguments() {
+                return this.detail.detail;
+            }
+
+            get commandHandler() {
+                return this.detail.handler;
+            }
+
+            attach(hostElement) {
+                hostElement.addEventListener(this.commandEvent, this.commandHandler);
+            }
+
+            detach(hostElement) {
+                hostElement.removeEventListener(this.commandEvent);
             }
 
             fireGeneric() {
-                this.detail.target.dispatchEvent(new CustomEvent(this.detail.subject, {
+                this.commandTarget.dispatchEvent(new CustomEvent(this.commandEvent, {
                     bubbles: true,
                     composed: true,
-                    detail: this.detail.detail
+                    detail: this.commandArguments
                 }));
-            }
-
-            fireCustom() {
-                this.detail.target.dispatchEvent(this.detail.event);
             }
 
             toString() {
@@ -83,71 +100,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }
                 };
             }
-        });
-
-        /**
-         * Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
-         *
-         * @mixinFunction
-         * @polymer
-         * @memberof Plutonium
-         * @property rootPattern {string} Set default root path for main element.
-         * @property page {string} Current page element.
-         * @property homePage {string} Homepage, where the base path redirect.
-         * @summary Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
-         */
-        Plutonium.CommandMixin = Polymer.dedupingMixin((base) => class extends base {
-
-            /**
-             * Fired whenever a navigation fired.
-             *
-             * @event navigate
-             */
-
-            static get properties() {
-                return {
-                    actions: {
-                        type: Object,
-                        notify: true,
-                        value: () => {
-                        }
-                    }
-                }
-            }
-
-            static get observers() {
-                return [];
-            }
-
-            constructor() {
-                super();
-                // Get root pattern for app-route, for more info about `rootPath` see:
-                // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
-                this.rootPattern = (new URL(this.rootPath)).pathname;
-                console.debug('Root path:', this.rootPattern);
-            }
 
             ready() {
                 super.ready();
 
-                this.weakShadowDomConstraint('drawer', 'app-drawer');
+//                this.weakShadowDomConstraint('toast', 'paper-toast');
 
                 this.addEventListener(window.Plutonium.CommandEvent.is, e => {
-                    this._handleNavigation(e)
+                    this._handleNotificationAdded(e)
                 });
-
-                console.debug('Register navigate event listener');
-
-                this.declareAction(subjectElement, 'add', 'my-icons:add', new CustomEvent('custom'), e => {
-                    this._onBack(e)
-                })
+                console.debug('Register notification event listener');
             }
 
             declareAction(commandName, subjectElement, targetEvent, commandHandler) {
                 let command = window.Plutonium.CommandEvent(subjectElement, targetEvent, commandHandler);
+                let command = window.Plutonium.CommandEvent(target, subject, event, args, handler);
                 this.set('actions.' + commandName, command);
             }
         });
-
     })();
 </script>
