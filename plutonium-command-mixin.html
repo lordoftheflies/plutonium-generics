@@ -115,7 +115,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     return {
                         actionList: {
                             type: Array,
-                            compute: 'computeActionList(actions.*)'
+                            notify: true,
+                            value: []
                         },
                         actions: {
                             type: Object,
@@ -123,6 +124,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             value: {}
                         }
                     };
+                }
+
+                static get observers() {
+                    return [
+                        'observeActions(actions.*)'
+                    ]
                 }
 
                 connectedCallback() {
@@ -154,7 +161,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     delete this.actions[name];
                 }
 
-                computeActionList(changeRecord) {
+                observeActions(changeRecord) {
                     let actionMap = this.actions;
 //                    return Object.keys(actionMap).map(function (key) {
 //                        return actionMap[key];
