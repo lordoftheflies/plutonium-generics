@@ -91,6 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
 
         Plutonium.PopupProducerMixin = Polymer.dedupingMixin((base) => class extends base {
+
             prompt(title, text, trueEvent, falseEvent) {
                 let event = new window.Plutonium.PromptEvent(this.id, title, text, trueEvent, falseEvent);
                 console.debug('fire-event', event.toString());
@@ -205,7 +206,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             applyPrompt(event) {
-                this.$$('#' + this.get('_popped.targetId')).dispatchEvent(new CustomEvent(this.get('_popped.trueEvent'), {
+                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.trueEvent'), {
                     bubbles: true,
                     composed: true,
                     detail: event.detail
@@ -214,7 +215,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             declinePrompt(event) {
-                this.$$('#' + this.get('_popped.targetId')).dispatchEvent(new CustomEvent(this.get('_popped.falseEvent'), {
+                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.falseEvent'), {
                     bubbles: true,
                     composed: true,
                     detail: event.detail
@@ -223,7 +224,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             closeAlert(event) {
-                this.$$('#' + this.get('_popped.targetId')).dispatchEvent(new CustomEvent(this.get('_popped.approveEvent'), {
+                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.approveEvent'), {
                     bubbles: true,
                     composed: true,
                     detail: event.detail
