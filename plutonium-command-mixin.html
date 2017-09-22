@@ -127,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 connectedCallback() {
                     super.connectedCallback();
-                    this.get('actionsList').forEach(function callback(commandEvent, index, array) {
+                    Object.values(this.actions).forEach(function callback(commandEvent, index, array) {
                         console.debug('listen to action:', commandEvent.toString());
                         commandEvent.attach(this);
                     }, this);
@@ -136,7 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 disconnectedCallback() {
                     super.disconnectedCallback();
-                    this.get('actionList').forEach(function callback(commandEvent, index, array) {
+                    Object.values(this.actions).forEach(function callback(commandEvent, index, array) {
                         console.debug('unlisten to action:', commandEvent.toString());
                         commandEvent.detach(this);
                     }, this);
@@ -144,9 +144,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 declareAction(name, target, event, args, handler, icon, text, help) {
                     let command = new window.Plutonium.CommandEvent(name, target, event, args, handler, icon, text, help);
-                    if (this.get('actions')) {
-                        this.get('actions')[command.commandName] = command;
+                    if (!this.actions) {
+                        this.actions = {};
                     }
+                    this.actions[command.commandName] = command;
                 }
 
                 cleanAction(name) {
