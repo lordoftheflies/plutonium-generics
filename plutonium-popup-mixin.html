@@ -26,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-popup';
             }
 
-            constructor(popup, content, title) {
+            constructor(popup, title, content) {
                 super(window.Plutonium.PopupEvent.is, {
                     bubbles: true,
                     composed: true,
@@ -61,8 +61,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-popup-prompt';
             }
 
-            constructor(content, title, trueEvent, falseEvent) {
-                super('promptDialog', content, title);
+            constructor(title, content, trueEvent, falseEvent) {
+                super('promptDialog', title, content);
                 this.detail.trueEvent = trueEvent;
                 this.detail.falseEvent = falseEvent;
             }
@@ -78,8 +78,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-popup-alert';
             }
 
-            constructor(popup, content, title, approveEvent) {
-                super('alertDialog', content, title);
+            constructor(title, content, approveEvent) {
+                super('alertDialog', title, content);
                 this.detail.approveEvent = approveEvent;
             }
 
@@ -90,13 +90,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         Plutonium.PopupProducerMixin = Polymer.dedupingMixin((base) => class extends base {
             prompt(title, text, trueEvent, falseEvent) {
-                let event = new window.Plutonium.PromptEvent(text, title, trueEvent, falseEvent);
+                let event = new window.Plutonium.PromptEvent(title, text, trueEvent, falseEvent);
                 console.debug('fire-event', event.toString());
                 this.dispatchEvent(event);
             }
 
             alert(title, text, approveEvent) {
-                let event = new window.Plutonium.AlertEvent(text, title, approveEvent);
+                let event = new window.Plutonium.AlertEvent(title, text, approveEvent);
                 console.debug('fire-event', event.toString());
                 this.dispatchEvent(event);
             }
