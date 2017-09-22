@@ -110,20 +110,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     return {
                         actions: {
                             type: Array,
-                            notify: true,
-                            value: () => []
+                            compute: 'computeActionList(_map.*)'
                         },
                         _map: {
                             type: Object,
                             notify: true,
-                            value: () => {}
+                            value: () => {
+                            }
                         }
                     };
                 }
 
                 connectedCallback() {
                     super.connectedCallback();
-//                this.weakShadowDomConstraint('toast', 'paper-toast');
                     this.get('actions').forEach(function callback(commandEvent, index, array) {
                         console.debug('listen to action:', commandEvent.toString());
                         commandEvent.attach(this);
@@ -139,11 +138,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }, this);
                 }
 
-                declareAction(commandName, target, event, args, handler) {
-                    let command = window.Plutonium.CommandEvent(subjectElement, targetEvent, commandHandler);
-//                let command = window.Plutonium.CommandEvent(target, subject, event, args, handler);
-//                this.set('actions.' + commandName, command);
-                    this.push('actions', command);
+                declareAction(name, target, event, args, handler, text, help) {
+                    let command = window.Plutonium.CommandEvent(name, target, event, args, handler, text, help);
+                    this.get('_map')[command.commandName] = command;
+                }
+
+                cleanAction(name) {
+                    delete this._map[command.commandName];
+                }
+
+                computeActionList(changeRecord) {
+                    let actionMap = this._map;
+                    return Object.keys(actionMap).map(function (key) {
+                        return actionMap[key];
+                    });
                 }
             }
         )
