@@ -24,12 +24,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-action';
             }
 
-            constructor(name, target, event, args, handler, text, help) {
+            constructor(name, target, event, args, handler, icon, text, help) {
                 super(window.Plutonium.CommandEvent.is, {
                     bubbles: true,
                     composed: true,
                     detail: {
                         name: name,
+                        icon: icon,
                         text: text,
                         help: help,
                         target: target,
@@ -42,6 +43,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             get commandHelp() {
                 return this.detail.help;
+            }
+
+            get commandIcon() {
+                return this.detail.icon;
             }
 
             get commandText() {
