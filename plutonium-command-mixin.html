@@ -132,13 +132,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     ]
                 }
 
+                ready() {
+                    super.ready();
+                    this.addEventListener('plutonium-run', this.fireCommand);
+                }
+
                 connectedCallback() {
                     super.connectedCallback();
                     Object.values(this.actions).forEach(function callback(commandEvent, index, array) {
                         console.debug('listen to action:', commandEvent.toString());
                         commandEvent.attach(this);
                     }, this);
-
                 }
 
                 disconnectedCallback() {
@@ -159,6 +163,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 cleanAction(name) {
                     delete this.actions[name];
+                }
+
+                fireCommand(event) {
+                    this.actions[event.currentTarget.name].fireGeneric();
                 }
 
                 observeActions(changeRecord) {
