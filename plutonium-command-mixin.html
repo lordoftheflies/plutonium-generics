@@ -143,8 +143,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }, this);
                 }
 
-                declareAction(name, target, event, args, handler, text, help) {
-                    let command = new window.Plutonium.CommandEvent(name, target, event, args, handler, text, help);
+                declareAction(name, target, event, args, handler, icon, text, help) {
+                    let command = new window.Plutonium.CommandEvent(name, target, event, args, handler, icon, text, help);
+                    if (this.get('_map'))
+                        this.set('_map', {});
                     this.get('_map')[command.commandName] = command;
                 }
 
