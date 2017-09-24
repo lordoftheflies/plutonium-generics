@@ -1,0 +1,86 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="plutonium-command-mixin.html">
+<link rel="import" href="plutonium-widget-mixin.html">
+<link rel="import" href="plutonium-icons.html">
+<link rel="import" href="plutonium-shared-styles.html">
+
+<dom-module id="plutonium-fac-panel">
+    <template>
+        <style include="plutonium-shared-styles">
+            :host {
+                display: block;
+                @apply --layout-horizontal;
+            }
+
+            /*.flex-equal-around-justified {*/
+            /*@apply --layout-horizontal;*/
+            /*@apply --layout-around-justified;*/
+            /*}*/
+
+            /*.flex-center-align {*/
+            /*@apply --layout-horizontal;*/
+            /*@apply --layout-center;*/
+            /*!*height: 120px;*!*/
+            /*}*/
+
+        </style>
+
+        <template is="dom-repeat" items="[[commands]]" as="command">
+            <template is="dom-if" if="[[command.link]]">
+                <a href="[[command.link]]">
+                    <paper-fab icon="[[command.icon]]" title="[[command.label]]"></paper-fab>
+                </a>
+            </template>
+            <template is="dom-if" if="[[!command.link]]">
+                <paper-fab
+                        icon="[[command.icon]]"
+                        title="[[command.label]]"
+                        index="[[index]]"
+                        on-tap="onTrigger">
+                </paper-fab>
+            </template>
+        </template>
+
+
+    </template>
+
+    <script>
+        /**
+         * `plutonium-account-panel`
+         * User account information panel.
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PlutoniumFacPanel extends window.Plutonium.ActionRendererMixin(window.Plutonium.WidgetMixin(Polymer.Element)) {
+            static get is() {
+                return 'plutonium-fac-panel';
+            }
+
+            static get properties() {
+                return {
+                    category: {
+                        type: String,
+                        value: 'action'
+                    },
+                    commands: {
+                        type: Object,
+                        notify: true,
+                        value: () => []
+                    }
+                };
+            }
+
+            ready() {
+                super.ready();
+                console.debug(this.fqen, 'ready');
+            }
+
+
+        }
+
+        window.customElements.define(PlutoniumFacPanel.is, PlutoniumFacPanel);
+    </script>
+</dom-module>

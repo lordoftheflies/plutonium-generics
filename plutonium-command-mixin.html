@@ -98,6 +98,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         };
 
+        /**
+         * Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
+         *
+         * @mixinFunction
+         * @polymer
+         * @memberof Plutonium
+         * @property rootPattern {string} Set default root path for main element.
+         * @property page {string} Current page element.
+         * @property homePage {string} Homepage, where the base path redirect.
+         * @summary Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
+         */
+        Plutonium.ActionRendererMixin = Polymer.dedupingMixin((base) => class extends base {
+
+                static get properties() {
+                    return {
+                        commands: {
+                            type: Object,
+                            notify: true,
+                            value: () => []
+                        }
+                    };
+                }
+
+                ready() {
+                    super.ready();
+                    console.debug(this.fqen, 'ready');
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
+                    this.addEventListener('plutonium-fac-add', this.onFaAddCommand);
+                    this.addEventListener('plutonium-fac-remove', this.onFaRemoveCommand);
+                }
+
+                disconnectedCallback() {
+                    super.disconnectedCallback();
+                    this.removeEventListener('plutonium-fac-add');
+                    this.removeEventListener('plutonium-fac-remove');
+                }
+
+                onTrigger(event) {
+                    let command = this.get(['commands', event.srcElement.index]);
+                    console.debug(this.fqen, 'trigger command', command);
+                    command.fireGeneric();
+                }
+
+                onFaAddCommand(event) {
+                    this.push('commands', event.detail);
+                    console.debug('framework register', event.detail.commandEvent, 'on', event.detail.commandTarget, ', handle', event.detail.commandHandler)
+                }
+
+                onFaRemoveCommand(event) {
+                    var index = this.users.indexOf(event.detail);
+                    this.splice('commands', index, 1);
+                    console.debug('framework unregister', event.detail.commandEvent, 'on', event.detail.commandTarget, ', handle', event.detail.commandHandler)
+                }
+            }
+        );
+
 
         /**
          * Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
@@ -110,71 +169,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          * @property homePage {string} Homepage, where the base path redirect.
          * @summary Element class mixin that provides API for adding navigation to a Polymer 2.0 application.
          */
-        Plutonium.CommandStoreMixin = Polymer.dedupingMixin((base) => class extends base {
+        Plutonium.ActionPublisherMixin = Polymer.dedupingMixin((base) => class extends base {
                 static get properties() {
                     return {
-                        actionList: {
-                            type: Array,
-                            notify: true,
-                            value: []
+                        category: {
+                            type: String,
+                            value: 'action'
                         },
-                        actions: {
-                            type: Object,
-                            notify: true,
-                            value: {}
-                        }
                     };
                 }
 
                 static get observers() {
                     return [
-                        'observeActions(actions.*)'
                     ]
                 }
 
                 ready() {
                     super.ready();
-                    this.addEventListener('plutonium-run', this.fireCommand);
                 }
 
                 connectedCallback() {
                     super.connectedCallback();
-                    Object.values(this.actions).forEach(function callback(commandEvent, index, array) {
-                        console.debug('listen to action:', commandEvent.toString());
-                        commandEvent.attach(this);
-                    }, this);
                 }
 
                 disconnectedCallback() {
                     super.disconnectedCallback();
-                    Object.values(this.actions).forEach(function callback(commandEvent, index, array) {
-                        console.debug('unlisten to action:', commandEvent.toString());
-                        commandEvent.detach(this);
-                    }, this);
                 }
 
-                declareAction(name, target, event, args, handler, icon, text, help) {
-                    let command = new window.Plutonium.CommandEvent(name, target, event, args, handler, icon, text, help);
-                    if (!this.actions) {
-                        this.actions = {};
-                    }
-                    this.actions[command.commandName] = command;
+                declareAction(detail) {
+                    let command = new window.Plutonium.CommandEvent(detail.target, detail.event, detail.args, detail.handler, detail.icon, detail.text, detail.help);
+                    this.dispatchEvent(new CustomEvent('plutonium-fac-add', command));
                 }
 
                 cleanAction(name) {
-                    delete this.actions[name];
-                }
-
-                fireCommand(event) {
-                    this.actions[event.currentTarget.name].fireGeneric();
-                }
-
-                observeActions(changeRecord) {
-                    let actionMap = this.actions;
-//                    return Object.keys(actionMap).map(function (key) {
-//                        return actionMap[key];
-//                    });
-                    this.actionList = Object.values(actionMap);
+                    this.dispatchEvent(new CustomEvent('plutonium-fac-remove', {
+                        event: name
+                    }));
                 }
             }
         )
