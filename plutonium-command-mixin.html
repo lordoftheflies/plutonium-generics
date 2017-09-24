@@ -31,6 +31,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             }
 
+            withCategory(category) {
+                this.detail['category'] = category;
+                return this;
+            }
+
             withLink(link) {
                 this.detail['link'] = link;
                 return this;
@@ -91,6 +96,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             get commandIcon() {
                 return this.detail.icon;
+            }
+
+            get commandCategory() {
+                return this.detail.category;
             }
 
             get commandText() {

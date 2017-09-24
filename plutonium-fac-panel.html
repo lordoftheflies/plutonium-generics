@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="plutonium-command-mixin.html">
 <link rel="import" href="plutonium-widget-mixin.html">
 <link rel="import" href="plutonium-icons.html">
@@ -33,14 +34,23 @@
 
         </style>
 
-        <template is="dom-repeat" items="[[commands]]" as="command">
+        <!--<iron-pages selected="[[page]]"-->
+        <!--attr-for-selected="name"-->
+        <!--fallback-selection="empty"-->
+        <!--role="fab">-->
+        <!--<div name="empty"></div>-->
+        <!--<template is="dom-repeat" items="[[pageNames]]" as="page">-->
+        <!--<div name="[[page]]">-->
+        <template is="dom-repeat" items="[[commands]]" as="command" filter="{{computeVisible(page)}}">
             <template is="dom-if" if="[[command.link]]">
-                <a href="[[command.link]]" class="fac-action">
-                    <paper-fab icon="[[command.icon]]" title="[[command.text]]"></paper-fab>
+                <a href="[[command.link]]" name="[[command.event]]">
+                    <paper-fab icon="[[command.icon]]" title="[[command.text]]"
+                               class="fac-action"></paper-fab>
                 </a>
             </template>
             <template is="dom-if" if="[[!command.link]]">
                 <paper-fab
+                        name="[[command.event]]"
                         class="fac-action"
                         icon="[[command.icon]]"
                         title="[[command.text]]"
@@ -49,8 +59,9 @@
                 </paper-fab>
             </template>
         </template>
-
-
+        <!--</div>-->
+        <!--</template>-->
+        <!--</iron-pages>-->
     </template>
 
     <script>
@@ -70,11 +81,19 @@
             static get properties() {
                 return {
                     commands: {
-                        type: Object,
+                        type: Array,
                         notify: true,
                         value: () => []
+                    },
+                    page: {
+                        type: String,
+                        notify: true
                     }
                 };
+            }
+
+            static get observers() {
+                return [];
             }
 
             ready() {
@@ -82,7 +101,20 @@
                 console.debug(this.fqen, 'ready');
             }
 
-
+            computeVisible(page) {
+                if (!page) {
+                    // set filter to null to disable filtering
+                    return null;
+                } else {
+                    return function (command) {
+                        if (command.category && command.category === page) {
+                            return true
+                        } else {
+                            return false;
+                        }
+                    };
+                }
+            }
         }
 
         window.customElements.define(PlutoniumFacPanel.is, PlutoniumFacPanel);
