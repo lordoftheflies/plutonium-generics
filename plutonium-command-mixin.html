@@ -60,7 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.detail['args'] = args;
                 return this;
             }
-            
+
             withTargetAndHandler(target, handler) {
                 this.detail['target'] = target;
                 this.detail['handler'] = handler;
@@ -190,13 +190,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 onFaAddCommand(event) {
                     this.push('commands', event.detail);
-                    console.debug('framework register', event.detail.commandEvent, 'on', event.detail.commandTarget, ', handle', event.detail.commandHandler)
+                    console.debug('register action', event.detail);
                 }
 
                 onFaRemoveCommand(event) {
                     var index = this.users.indexOf(event.detail);
                     this.splice('commands', index, 1);
-                    console.debug('framework unregister', event.detail.commandEvent, 'on', event.detail.commandTarget, ', handle', event.detail.commandHandler)
+                    console.debug('unregister action', event.detail);
                 }
             }
         );
