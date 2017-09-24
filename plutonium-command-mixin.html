@@ -76,19 +76,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'plutonium-action';
             }
 
-            constructor(target, event, args, handler, icon, text, help) {
+            constructor(detail) {
                 super(window.Plutonium.CommandEvent.is, {
                     bubbles: true,
                     composed: true,
-                    detail: {
-                        icon: icon,
-                        text: text,
-                        help: help,
-                        target: target,
-                        event: event,
-                        detail: args,
-                        handler: handler
-                    }
+                    detail: detail
                 });
             }
 
@@ -247,7 +239,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
 
                 declareAction(detail) {
-                    let command = new window.Plutonium.CommandEvent(detail.target, detail.event, detail.args, detail.handler, detail.icon, detail.text, detail.help);
+                    let command = new window.Plutonium.CommandEvent(detail);
                     this.dispatchEvent(new CustomEvent('plutonium-fac-add', command));
                 }
 
