@@ -19,17 +19,68 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             window.Plutonium = {};
         }
 
+        Plutonium.CommandBuilder = class CommandBuilder {
+
+            static create() {
+                return new CommandBuilder();
+            }
+
+            constructor(detail) {
+                if (!detail) {
+                    this.detail = {};
+                }
+            }
+
+            withIcon(icon) {
+                this.detail['icon'] = icon;
+                return this;
+            }
+
+            withText(text) {
+                this.detail['text'] = text;
+                return this;
+            }
+
+            withHelp(help) {
+                this.detail['help'] = help;
+                return this;
+            }
+
+            withTarget(target) {
+                this.detail['target'] = target;
+                return this;
+            }
+
+            withEvent(event) {
+                this.detail['event'] = event;
+                return this;
+            }
+
+            withArgs(args) {
+                this.detail['args'] = args;
+                return this;
+            }
+
+            withHandler(handler) {
+                this.detail['handler'] = handler;
+                return this;
+            }
+
+            build() {
+                return this.detail;
+            }
+        }
+
         Plutonium.CommandEvent = class CommandEvent extends CustomEvent {
             static get is() {
                 return 'plutonium-action';
             }
 
-            constructor(name, target, event, args, handler, icon, text, help) {
+            constructor(target, event, args, handler, icon, text, help) {
                 super(window.Plutonium.CommandEvent.is, {
                     bubbles: true,
                     composed: true,
                     detail: {
-                        name: name,
                         icon: icon,
                         text: text,
                         help: help,
@@ -180,8 +231,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
 
                 static get observers() {
-                    return [
-                    ]
+                    return []
                 }
 
                 ready() {
