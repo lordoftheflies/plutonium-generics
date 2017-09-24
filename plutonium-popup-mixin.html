@@ -106,67 +106,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
 
         Plutonium.PopupConsumerMixin = Polymer.dedupingMixin((base) => class extends base {
-            static get properties() {
-                return {
-                    promptId: {
-                        type: String,
-                        notify: true,
-                        value: () => null
-                    },
-                    modalTitle: {
-                        type: String,
-                        notify: true,
-                        value: () => null
-                    },
-                    modalText: {
-                        type: String,
-                        notify: true,
-                        value: () => null
-                    },
-                    promptTrueLabel: {
-                        type: String,
-                        notify: true,
-                        value: () => 'Accept'
-                    },
-                    promptFalseLabel: {
-                        type: String,
-                        notify: true,
-                        value: () => 'Cancel'
-                    },
-                    approveLabel: {
-                        type: String,
-                        notify: true,
-                        value: () => 'Ok'
-                    },
-                    backendUrl: String,
+                static get properties() {
+                    return {
+                        promptId: {
+                            type: String,
+                            notify: true,
+                            value: () => null
+                        },
+                        modalTitle: {
+                            type: String,
+                            notify: true,
+                            value: () => null
+                        },
+                        modalText: {
+                            type: String,
+                            notify: true,
+                            value: () => null
+                        },
+                        promptTrueLabel: {
+                            type: String,
+                            notify: true,
+                            value: () => 'Accept'
+                        },
+                        promptFalseLabel: {
+                            type: String,
+                            notify: true,
+                            value: () => 'Cancel'
+                        },
+                        approveLabel: {
+                            type: String,
+                            notify: true,
+                            value: () => 'Ok'
+                        },
+                        backendUrl: String,
 
-                    _popped: {
-                        type: Object,
-                        notify: true,
-                        value: () => null
+                        _popped: {
+                            type: Object,
+                            notify: true,
+                            value: () => null
+                        }
                     }
                 }
-            }
 
-            ready() {
-                super.ready();
+                ready() {
+                    super.ready();
 
 //                this.weakShadowDomConstraint('alertDialog', 'paper-dialog');
 //                this.weakShadowDomConstraint('promptDialog', 'paper-dialog');
 
-                this.addEventListener(window.Plutonium.PopupEvent.is, e => {
-                    this._onPopup(e)
-                });
-                this.addEventListener(window.Plutonium.PromptEvent.is, e => {
-                    this._onPopup(e)
-                });
-                this.addEventListener(window.Plutonium.AlertEvent.is, e => {
-                    this._onPopup(e)
-                });
-                console.debug('Register popup event listener');
-            }
+                    this.addEventListener(window.Plutonium.PopupEvent.is, e => {
+                        this._onPopup(e)
+                    });
+                    this.addEventListener(window.Plutonium.PromptEvent.is, e => {
+                        this._onPopup(e)
+                    });
+                    this.addEventListener(window.Plutonium.AlertEvent.is, e => {
+                        this._onPopup(e)
+                    });
+                    console.debug('Register popup event listener');
+                }
 
-            _onPopup(event) {
+                _onPopup(event) {
 //                try {
 //                    this.strongShadowDomConstraint(event.detail.popup, 'paper-dialog');
 
@@ -187,9 +187,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //                        throw exception;
 //                    }
 //                }
-            }
+                }
 
-            _onPopdown(event) {
+                _onPopdown(event) {
 //                try {
                     let popup = event.currentTarget.parentElement.parentElement;
                     if (popup) {
@@ -203,36 +203,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //                        throw exception;
 //                    }
 //                }
-            }
+                    }
+                }
 
-            applyPrompt(event) {
-                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.trueEvent'), {
-                    bubbles: true,
-                    composed: true,
-                    detail: event.detail
-                }));
-                this._onPopdown(event);
-            }
+                applyPrompt(event) {
+                    this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.trueEvent'), {
+                        bubbles: true,
+                        composed: true,
+                        detail: event.detail
+                    }));
+                    this._onPopdown(event);
+                }
 
-            declinePrompt(event) {
-                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.falseEvent'), {
-                    bubbles: true,
-                    composed: true,
-                    detail: event.detail
-                }));
-                this._onPopdown(event);
-            }
+                declinePrompt(event) {
+                    this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.falseEvent'), {
+                        bubbles: true,
+                        composed: true,
+                        detail: event.detail
+                    }));
+                    this._onPopdown(event);
+                }
 
-            closeAlert(event) {
-                this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.approveEvent'), {
-                    bubbles: true,
-                    composed: true,
-                    detail: event.detail
-                }));
-                this._onPopdown(event);
-            }
+                closeAlert(event) {
+                    this.$[this.get('_popped.targetId')].dispatchEvent(new CustomEvent(this.get('_popped.approveEvent'), {
+                        bubbles: true,
+                        composed: true,
+                        detail: event.detail
+                    }));
+                    this._onPopdown(event);
+                }
 
-        });
+            }
+        )
+        ;
 
     })();
 </script>
