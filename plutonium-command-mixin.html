@@ -31,6 +31,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             }
 
+            withLink(link) {
+                this.detail['link'] = link;
+                return this;
+            }
+
             withIcon(icon) {
                 this.detail['icon'] = icon;
                 return this;
@@ -46,11 +51,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return this;
             }
 
-            withTarget(target) {
-                this.detail['target'] = target;
-                return this;
-            }
-
             withEvent(event) {
                 this.detail['event'] = event;
                 return this;
@@ -60,8 +60,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.detail['args'] = args;
                 return this;
             }
-
-            withHandler(handler) {
+            
+            withTargetAndHandler(target, handler) {
+                this.detail['target'] = target;
                 this.detail['handler'] = handler;
                 return this;
             }
