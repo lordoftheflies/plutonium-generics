@@ -54,17 +54,13 @@
          * @polymer
          * @demo demo/index.html
          */
-        class PlutoniumFacPanel extends window.Plutonium.ActionRendererMixin(window.Plutonium.WidgetMixin(Polymer.Element)) {
+        class PlutoniumFacPanel extends window.Plutonium.WidgetMixin(Polymer.Element) {
             static get is() {
                 return 'plutonium-fac-panel';
             }
 
             static get properties() {
                 return {
-                    category: {
-                        type: String,
-                        value: 'action'
-                    },
                     commands: {
                         type: Object,
                         notify: true,

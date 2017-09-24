@@ -151,8 +151,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             ready() {
                 super.ready();
 
-                this.weakShadowDomConstraint('alertDialog', 'paper-dialog');
-                this.weakShadowDomConstraint('promptDialog', 'paper-dialog');
+//                this.weakShadowDomConstraint('alertDialog', 'paper-dialog');
+//                this.weakShadowDomConstraint('promptDialog', 'paper-dialog');
 
                 this.addEventListener(window.Plutonium.PopupEvent.is, e => {
                     this._onPopup(e)
@@ -167,8 +167,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             _onPopup(event) {
-                try {
-                    this.strongShadowDomConstraint(event.detail.popup, 'paper-dialog');
+//                try {
+//                    this.strongShadowDomConstraint(event.detail.popup, 'paper-dialog');
 
                     let popup = this.$[event.detail.popup];
 
@@ -180,29 +180,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         this.set('modalText', event.detail.content);
                         popup.open();
                     }
-                } catch (exception) {
-                    if (exception instanceof Plutonium.LightCompositionError) {
-                        console.warn(exception.message);
-                    } else {
-                        throw exception;
-                    }
-                }
+//                } catch (exception) {
+//                    if (exception instanceof Plutonium.LightCompositionError) {
+//                        console.warn(exception.message);
+//                    } else {
+//                        throw exception;
+//                    }
+//                }
             }
 
             _onPopdown(event) {
-                try {
+//                try {
                     let popup = event.currentTarget.parentElement.parentElement;
                     if (popup) {
                         this.set('_popped', null);
                         popup.close();
-                    }
-                } catch (exception) {
-                    if (exception instanceof Plutonium.LightCompositionError) {
-                        console.warn(exception.message);
-                    } else {
-                        throw exception;
-                    }
-                }
+//                    }
+//                } catch (exception) {
+//                    if (exception instanceof Plutonium.LightCompositionError) {
+//                        console.warn(exception.message);
+//                    } else {
+//                        throw exception;
+//                    }
+//                }
             }
 
             applyPrompt(event) {

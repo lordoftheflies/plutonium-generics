@@ -73,27 +73,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
 
-            strongShadowDomConstraint(id, elementType) {
-                let element = this.$[id];
-                if (element) {
-                    console.debug(this.fqen, 'satisfy shadow-dom constraint, has element', (elementType) ? elementType + '#' + id : '#' + id);
-                } else {
-                    console.warn(this.fqen, 'violate shadow-dom constraint');
-                    throw new LightCompositionError(this.fqen, id);
-                }
-            }
-
-            weakShadowDomConstraint(id, elementType) {
-                try {
-                    this.strongShadowDomConstraint(id, elementType);
-                } catch (e) {
-                    if (e instanceof Plutonium.LightCompositionError) {
-                        console.warn(e.message);
-                    } else {
-                        throw e;
-                    }
-                }
-            }
+//            strongShadowDomConstraint(id, elementType) {
+//                let element = this.$[id];
+//                if (element) {
+//                    console.debug(this.fqen, 'satisfy shadow-dom constraint, has element', (elementType) ? elementType + '#' + id : '#' + id);
+//                } else {
+//                    console.warn(this.fqen, 'violate shadow-dom constraint');
+//                    throw new LightCompositionError(this.fqen, id);
+//                }
+//            }
+//
+//            weakShadowDomConstraint(id, elementType) {
+//                try {
+//                    this.strongShadowDomConstraint(id, elementType);
+//                } catch (e) {
+//                    if (e instanceof Plutonium.LightCompositionError) {
+//                        console.warn(e.message);
+//                    } else {
+//                        throw e;
+//                    }
+//                }
+//            }
         });
 
     })();
