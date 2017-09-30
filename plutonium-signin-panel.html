@@ -30,7 +30,7 @@
             }
 
         </style>
-        <iron-form id="loginForm" allow-redirect="[[django]]" headers="[[headers]]" verbose with-credentials>
+        <iron-form id="loginForm" allow-redirect="[[django]]" verbose with-credentials>
             <form method="post" action="[[authenticationUrl]]">
                 <template is="dom-if" if="[[csrfMiddlewareToken]]">
                     <input name="csrfmiddlewaretoken" value="[[csrfMiddlewareToken]]" type="hidden"></input>
@@ -199,6 +199,11 @@
                         type: String,
                         notify: true,
                         value: () => 'password'
+                    },
+                    django: {
+                        type: Boolean,
+                        notify: true,
+                        value: () => false
                     }
                 };
             }
@@ -224,6 +229,7 @@
             }
 
             observeCredentials(username, password) {
+                this.headers['X-Requested-With'] = 'XMLHttpRequest';
                 this.headers['Authorization'] = "Basic " + btoa(username + ":" + password);
             }
 
