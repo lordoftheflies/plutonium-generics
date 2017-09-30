@@ -30,7 +30,7 @@
             }
 
         </style>
-        <iron-form id="loginForm" allow-redirect="[[django]]">
+        <iron-form id="loginForm" allow-redirect="[[django]]" verbose>
             <form method="post" action="[[authenticationUrl]]" headers="[[headers]]">
                 <template is="dom-if" if="[[csrfMiddlewareToken]]">
                     <input name="csrfmiddlewaretoken" value="[[csrfMiddlewareToken]]" type="hidden"></input>
@@ -203,6 +203,12 @@
                 };
             }
 
+            static get observers() {
+                return [
+                    'observeCredentials(login, password)'
+                ]
+            }
+
             get json() {
                 return {
                     login: this.login,
@@ -215,6 +221,10 @@
             ready() {
                 super.ready();
                 console.debug(this.fqen, 'properties', this.json);
+            }
+
+            observeCredentials(username, password) {
+                this.headers['Authorization'] = "Basic " + btoa(username + ":" + password);
             }
 
             submitForm() {
