@@ -204,6 +204,10 @@
                         type: Boolean,
                         notify: true,
                         value: () => false
+                    },
+                    redirectUrl: {
+                        type: String,
+                        notify: true
                     }
                 };
             }
@@ -239,6 +243,7 @@
                 if (isFormValid) {
                     console.debug(this.fqen, 'submit', this.$.loginForm.serializeForm());
                     this.$.loginForm.submit();
+                    this.dispatchEvent(new window.Plutonium.NavigationEvent(this.get('redirectUrl')));
                 } else {
                     console.debug(this.fqen, 'is invalid, reset');
                     this.$.loginForm.reset();
