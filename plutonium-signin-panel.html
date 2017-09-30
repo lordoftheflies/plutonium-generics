@@ -243,7 +243,7 @@
                     this.dispatchEvent(new CustomEvent('plutonium-authenticated', {
                         bubbles: true,
                         composed: true,
-                        detail: event.detail
+                        detail: event.detail.__data
                     }));
 //                    this.dispatchEvent(new window.Plutonium.NavigationEvent(this.get('redirectUrl')));
                 });
