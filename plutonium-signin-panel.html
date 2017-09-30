@@ -30,8 +30,8 @@
             }
 
         </style>
-        <iron-form id="loginForm" allow-redirect="[[django]]" verbose>
-            <form method="post" action="[[authenticationUrl]]" headers="[[headers]]">
+        <iron-form id="loginForm" allow-redirect="[[django]]" headers="[[headers]]" verbose with-credentials>
+            <form method="post" action="[[authenticationUrl]]">
                 <template is="dom-if" if="[[csrfMiddlewareToken]]">
                     <input name="csrfmiddlewaretoken" value="[[csrfMiddlewareToken]]" type="hidden"></input>
                 </template>
