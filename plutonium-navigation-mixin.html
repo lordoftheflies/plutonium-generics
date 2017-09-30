@@ -171,7 +171,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
              * @private
              */
             _handleNavigation(event) {
-                console.debug(this.fqdn, 'navigate from', this.get('page'), 'to', event.detail.path);
+                console.debug(this.fqen, 'navigate from', this.get('page'), 'to', event.detail.path);
                 window.history.pushState({}, null, event.detail.path);
                 window.dispatchEvent(new CustomEvent('location-changed'));
             }
