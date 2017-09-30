@@ -31,7 +31,7 @@
 
         </style>
         <iron-form id="loginForm" allow-redirect="[[django]]">
-            <form method="post" action="[[authenticationUrl]]">
+            <form method="post" action="[[authenticationUrl]]" headers="[[headers]]">
                 <template is="dom-if" if="[[csrfMiddlewareToken]]">
                     <input name="csrfmiddlewaretoken" value="[[csrfMiddlewareToken]]" type="hidden"></input>
                 </template>
@@ -41,7 +41,8 @@
                 </template>
 
                 <template is="dom-if" if="[[emailAuth]]">
-                    <paper-input name="email" type="email" label="[[emailLabel]]" value="{{login}}" required></paper-input>
+                    <paper-input name="email" type="email" label="[[emailLabel]]" value="{{login}}"
+                                 required></paper-input>
                 </template>
                 <template is="dom-if" if="[[!emailAuth]]">
                     <paper-input name="[[nameOfLogin]]" type="text" label="[[loginLabel]]" value="{{login}}"
@@ -89,6 +90,11 @@
 
             static get properties() {
                 return {
+                    headers: {
+                        type: Object,
+                        notify: true
+                    },
+
                     emailAuth: {
                         type: Boolean,
                         notify: true,
