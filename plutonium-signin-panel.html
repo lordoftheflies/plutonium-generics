@@ -95,6 +95,12 @@
                         type: Object,
                         notify: true
                     },
+                    authorization: {
+                        type: String,
+                        reflectToAttribute: true,
+                        notify: true,
+                        value: () => null
+                    },
 
                     emailAuth: {
                         type: Boolean,
@@ -245,7 +251,8 @@
             observeCredentials(username, password) {
                 this.headers['X-Requested-With'] = 'XMLHttpRequest';
                 this.headers['WWW-Authenticate'] = 'Basic realm="api"';
-                this.headers['Authorization'] = "Basic " + btoa(username + ":" + password);
+                this.authorization = "Basic " + btoa(username + ":" + password);
+                this.headers['Authorization'] = this.authorization;
             }
 
             submitForm() {
