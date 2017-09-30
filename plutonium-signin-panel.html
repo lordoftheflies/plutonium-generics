@@ -230,6 +230,7 @@
 
             observeCredentials(username, password) {
                 this.headers['X-Requested-With'] = 'XMLHttpRequest';
+                this.headers['WWW-Authenticate'] = 'Basic realm="api"';
                 this.headers['Authorization'] = "Basic " + btoa(username + ":" + password);
             }
 
