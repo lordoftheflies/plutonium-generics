@@ -231,6 +231,15 @@
             ready() {
                 super.ready();
                 console.debug(this.fqen, 'properties', this.json);
+
+                this.$.loginForm.addEventListener('iron-form-response', function(event) {
+                    this.dispatchEvent(new CustomEvent('plutonium-authenticated', {
+                        bubbles: true,
+                        composed: true,
+                        detail: event.detail
+                    }));
+//                    this.dispatchEvent(new window.Plutonium.NavigationEvent(this.get('redirectUrl')));
+                });
             }
 
             observeCredentials(username, password) {
@@ -244,12 +253,14 @@
                 if (isFormValid) {
                     console.debug(this.fqen, 'submit', this.$.loginForm.serializeForm());
                     this.$.loginForm.submit();
-                    this.dispatchEvent(new window.Plutonium.NavigationEvent(this.get('redirectUrl')));
+
                 } else {
                     console.debug(this.fqen, 'is invalid, reset');
                     this.$.loginForm.reset();
                 }
             }
+
+
         }
 
         window.customElements.define(PlutoniumSigninPanel.is, PlutoniumSigninPanel);
