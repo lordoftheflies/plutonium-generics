@@ -237,11 +237,11 @@
             ready() {
                 super.ready();
                 console.debug(this.fqen, 'properties', this.json);
-
+                let self = this;
                 this.$.loginForm.addEventListener('iron-form-response', function(event) {
                     let account = event.detail.__data.response;
                     console.debug(this.fqen, 'handle iron-form-response', account);
-                    this.dispatchEvent(new CustomEvent('plutonium-authenticated', {
+                    self.dispatchEvent(new CustomEvent('plutonium-authenticated', {
                         bubbles: true,
                         composed: true,
                         detail: account
