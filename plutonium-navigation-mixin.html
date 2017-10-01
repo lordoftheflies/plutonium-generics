@@ -114,6 +114,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.addEventListener(window.Plutonium.NavigationEvent.is, e => {
                     this._handleNavigation(e)
                 });
+                this.addEventListener('plutonium-back', e => {
+                    window.history.back();
+                    window.dispatchEvent(new CustomEvent('location-changed'));
+                });
 
                 console.debug('Register navigate event listener');
             }
